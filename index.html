@@ -292,9 +292,9 @@
                 <span>Lokasi</span>
             </button>
 
-            <!-- 4. Hubungi (Panggilan Telefon Direct Popup) -->
+            <!-- 4. Hubungi (Tukar kepada ikon telefon fa-phone) -->
             <button class="footer-item" onclick="openModal('contactModal')">
-                <i class="fa-regular fa-comment-dots"></i>
+                <i class="fa-solid fa-phone"></i>
                 <span>Hubungi</span>
             </button>
 
@@ -339,7 +339,7 @@
 
     </div>
 
-    <!-- Fail Lagu MP3 Tempatan -->
+    <!-- Fail Lagu Audio -->
     <audio id="bgMusic" loop preload="auto">
         <source src="lagu.mp3" type="audio/mpeg">
     </audio>
@@ -348,34 +348,28 @@
         const audio = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
 
-        // Memastikan audio divalidasi semasa fail siap dimuat
-        window.addEventListener('DOMContentLoaded', () => {
-            audio.load();
-        });
-
         function openCard() {
             document.getElementById('envelope').classList.add('open');
-            playAudio();
+            playAudioDirect();
         }
 
-        function playAudio() {
-            audio.play().then(() => {
-                musicIcon.className = "fa-solid fa-circle-pause";
-            }).catch(error => {
-                console.log("Autoplay disekat oleh pelayar:", error);
-                
-                // Fallback: Aktifkan audio serta merta pada sebarang interaksi pengguna
-                const unlock = () => {
-                    audio.play().then(() => {
-                        musicIcon.className = "fa-solid fa-circle-pause";
-                    }).catch(e => console.log(e));
-                    document.removeEventListener('click', unlock);
-                    document.removeEventListener('touchstart', unlock);
-                };
+        // Fungsi khas main audio terus melalui event klik manusia
+        function playAudioDirect() {
+            audio.currentTime = 0;
+            audio.volume = 1.0;
+            
+            let playPromise = audio.play();
 
-                document.addEventListener('click', unlock);
-                document.addEventListener('touchstart', unlock);
-            });
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    musicIcon.className = "fa-solid fa-circle-pause";
+                }).catch(error => {
+                    console.log("Error mainkan audio:", error);
+                    // Jika browser sekat, cuba lagi sekali dengan binaan audio secara terus
+                    audio.play();
+                    musicIcon.className = "fa-solid fa-circle-pause";
+                });
+            }
         }
 
         function toggleAudio() {
