@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Walimatulurus Syafiq & Zizi</title>
 
-    <!-- FontAwesome untuk Ikon Footer -->
+    <!-- FontAwesome untuk Ikon Footer & Modal -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -437,7 +437,7 @@
 
                         <!-- Input Nama -->
                         <div class="form-group">
-                            <label for="inputNama">Nama Penuh</label>
+                            <label for="inputNama">Nama</label>
                             <input type="text" id="inputNama" class="form-input" placeholder="Masukkan nama anda" required>
                         </div>
 
@@ -463,6 +463,16 @@
                     </form>
                 </div>
                 <button class="close-btn" onclick="closeModal('rsvpModal')">Batal / Tutup</button>
+            </div>
+        </div>
+
+        <!-- Modal Notifikasi Berjaya Hantar -->
+        <div class="modal" id="successModal">
+            <div class="modal-content" style="text-align: center; padding: 30px 20px;">
+                <i class="fa-solid fa-circle-check" style="font-size: 50px; color: #a39e6a; margin-bottom: 12px;"></i>
+                <h4 style="margin-bottom: 8px; color: #4a4237; font-size: 18px;">Terima Kasih!</h4>
+                <p style="font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.4;">Pengesahan kehadiran anda telah berjaya dihantar.</p>
+                <button class="submit-rsvp-btn" onclick="closeModal('successModal')">Tutup</button>
             </div>
         </div>
 
@@ -605,14 +615,14 @@
                 body: JSON.stringify(payload)
             })
             .then(() => {
-                alert("Terima kasih! Pengesahan kehadiran anda telah berjaya dihantar.");
                 document.getElementById('rsvpForm').reset();
                 togglePaxField('Hadir');
                 submitBtn.innerText = "Hantar Pengesahan";
                 submitBtn.disabled = false;
                 
-                // Tutup modal selepas hantar
+                // Tutup modal borang & buka modal kejayaan custom
                 closeModal('rsvpModal');
+                openModal('successModal');
                 
                 // Ambil data terbaru selepas 1.5 saat untuk update nombor secara live
                 setTimeout(fetchRSVPCount, 1500); 
