@@ -83,50 +83,6 @@
             letter-spacing: 4px;
         }
 
-        /* Pilihan Hadir / Tidak Hadir (Icon Style) */
-        .status-options {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-        }
-
-        .status-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            background: none;
-            border: none;
-            outline: none;
-            color: #777;
-            transition: transform 0.2s ease;
-        }
-
-        .status-btn i {
-            font-size: 36px;
-            margin-bottom: 6px;
-            color: #bbb;
-            transition: color 0.2s ease;
-        }
-
-        .status-btn.selected i.fa-circle-check {
-            color: #27ae60;
-        }
-
-        .status-btn.selected i.fa-circle-xmark {
-            color: #e74c3c;
-        }
-
-        .status-btn.selected span {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .status-btn span {
-            font-size: 13px;
-        }
-
         /* Input Form Style */
         .form-group {
             margin-bottom: 12px;
@@ -180,7 +136,7 @@
             opacity: 0.8;
         }
 
-        /* Seksyen Kaunter Kehadiran Live (Dialihkan ke bawah) */
+        /* Seksyen Kaunter Kehadiran Live */
         .rsvp-counter-container {
             background: #ffffff;
             margin: 10px 15px 30px 15px;
@@ -422,25 +378,21 @@
             <img src="3.png" alt="Muka Surat 3">
             <img src="4.png" alt="Muka Surat 4">
 
-            <!-- Bahagian RSVP & UCAPAN (Berada di atas sekarang) -->
+            <!-- Bahagian RSVP & UCAPAN -->
             <div class="rsvp-section" id="rsvpDirectSection">
                 <div class="divider-ornament">❖ ─── ❖ ─── ❖</div>
                 <h3>RSVP & UCAPAN</h3>
 
                 <form id="rsvpForm" onsubmit="submitRSVP(event)">
-                    <!-- Pilihan Kehadiran -->
-                    <div class="status-options">
-                        <button type="button" class="status-btn selected" id="btnHadir" onclick="selectStatus('Hadir')">
-                            <i class="fa-regular fa-circle-check"></i>
-                            <span>Hadir</span>
-                        </button>
-                        <button type="button" class="status-btn" id="btnTakHadir" onclick="selectStatus('Tidak Hadir')">
-                            <i class="fa-regular fa-circle-xmark"></i>
-                            <span>Tidak Hadir</span>
-                        </button>
+                    
+                    <!-- Pilihan Kehadiran (Dropdown Menu) -->
+                    <div class="form-group">
+                        <label for="inputStatus">Pengesahan Kehadiran</label>
+                        <select id="inputStatus" class="form-input" onchange="togglePaxField(this.value)">
+                            <option value="Hadir">Hadir</option>
+                            <option value="Tidak Hadir">Tidak Hadir</option>
+                        </select>
                     </div>
-
-                    <input type="hidden" id="inputStatus" name="status" value="Hadir">
 
                     <!-- Input Nama -->
                     <div class="form-group">
@@ -470,7 +422,7 @@
                 </form>
             </div>
 
-            <!-- Bahagian Kaunter Kehadiran Live (Telah dialihkan ke bawah Form) -->
+            <!-- Bahagian Kaunter Kehadiran Live -->
             <div class="rsvp-counter-container">
                 <h3>KEHADIRAN</h3>
                 <div class="counter-box">
@@ -501,7 +453,7 @@
                 <span>Kalendar</span>
             </a>
 
-            <!-- 3. Lokasi (Waze / Google Maps Popup) -->
+            <!-- 3. Lokasi -->
             <button class="footer-item" onclick="openModal('locationModal')">
                 <i class="fa-solid fa-location-dot"></i>
                 <span>Lokasi</span>
@@ -513,14 +465,14 @@
                 <span>Hubungi</span>
             </button>
 
-            <!-- 5. RSVP (Scroll Direct ke Form dalam Kad) -->
+            <!-- 5. RSVP -->
             <button class="footer-item" onclick="scrollToRSVP()">
                 <i class="fa-regular fa-envelope"></i>
                 <span>RSVP</span>
             </button>
         </div>
 
-        <!-- Modal Popup: Lokasi (Waze / Google Maps) -->
+        <!-- Modal Popup: Lokasi -->
         <div class="modal" id="locationModal">
             <div class="modal-content">
                 <h4>Pilih Navigasi Lokasi</h4>
@@ -536,7 +488,7 @@
             </div>
         </div>
 
-        <!-- Modal Popup: Hubungi (Direct Phone Call) -->
+        <!-- Modal Popup: Hubungi -->
         <div class="modal" id="contactModal">
             <div class="modal-content">
                 <h4>Hubungi Penganjur</h4>
@@ -615,30 +567,22 @@
             document.getElementById('rsvpDirectSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        /* Logic Pemilihan Status Hadir / Tidak Hadir */
-        function selectStatus(status) {
-            document.getElementById('inputStatus').value = status;
-            const btnHadir = document.getElementById('btnHadir');
-            const btnTakHadir = document.getElementById('btnTakHadir');
+        /* Menyembunyikan/Menampilkan medan Jumlah Pax bergantung pada pilihan status */
+        function togglePaxField(status) {
             const paxGroup = document.getElementById('paxGroup');
-
             if (status === 'Hadir') {
-                btnHadir.classList.add('selected');
-                btnTakHadir.classList.remove('selected');
                 paxGroup.style.display = 'block';
             } else {
-                btnTakHadir.classList.add('selected');
-                btnHadir.classList.remove('selected');
                 paxGroup.style.display = 'none';
             }
         }
 
-        /* Masukkan URL Web App Google Apps Script korang di bawah ini */
-        const API_URL = "URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI";
+        /* URL Web App Google Apps Script */
+        const API_URL = "https://script.google.com/macros/s/AKfycbzEeXtWO-haYn4rxP9XfxTKzeDF6IVCXdqYuWXtszu8cXPDFw0a3Oqw0aR1mHte63FlTw/exec";
 
         /* Mengambil Data Kehadiran Live dari Apps Script */
         function fetchRSVPCount() {
-            if (API_URL === "URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI") return;
+            if (!API_URL || API_URL.includes("URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI")) return;
 
             fetch(API_URL)
                 .then(response => response.json())
@@ -652,11 +596,6 @@
         /* Menghantar Data Form RSVP terus ke Google Sheets & Update Counter secara Live */
         function submitRSVP(e) {
             e.preventDefault();
-
-            if (API_URL === "URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI") {
-                alert("Sila masukkan URL Google Apps Script yang sah pada API_URL terlebih dahulu!");
-                return;
-            }
 
             const submitBtn = document.getElementById('btnSubmit');
             submitBtn.innerText = "Hantar...";
@@ -678,7 +617,7 @@
             .then(() => {
                 alert("Terima kasih! Pengesahan kehadiran anda telah berjaya dihantar.");
                 document.getElementById('rsvpForm').reset();
-                selectStatus('Hadir');
+                togglePaxField('Hadir');
                 submitBtn.innerText = "Hantar Pengesahan";
                 submitBtn.disabled = false;
                 
