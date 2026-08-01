@@ -355,7 +355,7 @@
         }
 
         function playAudio() {
-            audio.currentTime = 0;
+            audio.muted = false;
             let playPromise = audio.play();
 
             if (playPromise !== undefined) {
@@ -365,9 +365,9 @@
                     console.log("Autoplay disekat:", error);
                     musicIcon.className = "fa-solid fa-circle-play";
                     
-                    // Fallback: Aktifkan audio sebaik sahaja pengguna sentuh skrin
-                    document.body.addEventListener('touchstart', unlockAudio, { once: true });
+                    // Fallback: Akses sentuhan terus untuk aktifkan audio
                     document.body.addEventListener('click', unlockAudio, { once: true });
+                    document.body.addEventListener('touchstart', unlockAudio, { once: true });
                 });
             }
         }
@@ -382,7 +382,7 @@
             if (audio.paused) {
                 audio.play().then(() => {
                     musicIcon.className = "fa-solid fa-circle-pause";
-                });
+                }).catch(e => console.log(e));
             } else {
                 audio.pause();
                 musicIcon.className = "fa-solid fa-circle-play";
