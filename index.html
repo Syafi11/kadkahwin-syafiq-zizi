@@ -574,20 +574,26 @@
             }
         }
 
-        /* Mengambil Data Kehadiran Live dari Apps Script */
+        /* Mengambil Data Kehadiran Live dari Apps Script (Fix Redirect & Cache) */
         function fetchRSVPCount() {
             if (!API_URL) return;
 
-            fetch(API_URL)
-                .then(response => response.json())
-                .then(data => {
+            // Tambah timestamp untuk elak browser simpan cache lama
+            fetch(API_URL + "?t=" + new Date().getTime(), {
+                method: "GET",
+                redirect: "follow"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.hadir !== undefined) {
                     document.getElementById('countHadir').innerText = data.hadir;
                     document.getElementById('countTakHadir').innerText = data.takHadir;
-                })
-                .catch(err => console.error("Error fetching RSVP:", err));
+                }
+            })
+            .catch(err => console.error("Error fetching RSVP:", err));
         }
 
-        /* Menghantar Data Form RSVP ke Google Sheets */
+        /* Menghantar Data Form RSVP ke Google Sheets (Fix Mode CORS Payload) */
         function submitRSVP(e) {
             e.preventDefault();
 
@@ -601,10 +607,11 @@
                 ucapan: document.getElementById('inputUcapan').value
             };
 
+            // Menggunakan URLSearchParams/text plain supaya tak kena block CORS waktu POST
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             })
             .then(() => {
@@ -616,8 +623,8 @@
                 closeModal('rsvpModal');
                 openModal('successModal');
                 
-                // Kemaskini nombor secara live selepas 1.5 saat
-                setTimeout(fetchRSVPCount, 1500); 
+                // Tarik semula nombor terkini selepas 2 saat
+                setTimeout(fetchRSVPCount, 2000); 
             })
             .catch(err => {
                 alert("Maaf, berlaku ralat. Sila cuba lagi.");
