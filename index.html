@@ -1,1279 +1,638 @@
 <!DOCTYPE html>
-
 <html lang="ms">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Walimatulurus Syafiq & Zizi</title>
 
-
-
     <!-- FontAwesome untuk Ikon Footer & Modal -->
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-
     <style>
-
         * {
-
             box-sizing: border-box;
-
             margin: 0;
-
             padding: 0;
-
         }
-
-
 
         body {
-
             background-color: #1a1a1a;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             min-height: 100vh;
-
             font-family: 'Arial', sans-serif;
-
             overflow-x: hidden;
-
         }
-
-
 
         /* Container Kad Utama */
-
         .card-container {
-
             position: relative;
-
             width: 100%;
-
             max-width: 420px;
-
             height: 90vh;
-
             max-height: 750px;
-
             background: #fff;
-
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-
             border-radius: 12px;
-
             overflow: hidden;
-
             display: flex;
-
             flex-direction: column;
-
         }
-
-
 
         /* Isi Dalam Kad */
-
         .card-inside {
-
             width: 100%;
-
             flex: 1;
-
             overflow-y: auto;
-
             text-align: center;
-
             background-color: #faf8f5;
-
             padding-bottom: 70px;
-
             scroll-behavior: smooth;
-
         }
-
-
 
         .card-inside img {
-
             width: 100%;
-
             height: auto;
-
             display: block;
-
         }
-
-
 
         /* Seksyen Kaunter Kehadiran Live */
-
         .rsvp-counter-container {
-
             background: #ffffff;
-
             margin: 20px 15px 30px 15px;
-
             padding: 20px 15px;
-
             border-radius: 12px;
-
             border: 1px solid #e0d8c3;
-
             box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-
             text-align: center;
-
         }
-
-
 
         .rsvp-counter-container h3 {
-
             font-size: 14px;
-
             letter-spacing: 2px;
-
             color: #6b5e4a;
-
             margin-bottom: 15px;
-
             font-weight: 600;
-
         }
-
-
 
         .counter-box {
-
             display: flex;
-
             justify-content: space-around;
-
             align-items: center;
-
         }
-
-
 
         .stat {
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
         }
-
-
 
         .count-number {
-
             font-size: 32px;
-
             font-weight: bold;
-
             color: #7a7049;
-
             font-family: 'Georgia', serif;
-
         }
-
-
 
         .count-label {
-
             font-size: 13px;
-
             color: #666;
-
             margin-top: 4px;
-
         }
-
-
 
         /* Input Form Style Untuk Modal */
-
         .rsvp-section-modal {
-
             text-align: center;
-
         }
-
-
 
         .rsvp-section-modal h3 {
-
             font-size: 15px;
-
             letter-spacing: 2px;
-
             color: #4a4237;
-
             margin-bottom: 10px;
-
             font-weight: 700;
-
         }
-
-
 
         .divider-ornament {
-
             margin: 0 0 15px 0;
-
             color: #a39e6a;
-
             font-size: 12px;
-
             letter-spacing: 4px;
-
         }
-
-
 
         .form-group {
-
             margin-bottom: 12px;
-
             text-align: left;
-
         }
-
-
 
         .form-group label {
-
             display: block;
-
             font-size: 12px;
-
             color: #666;
-
             margin-bottom: 4px;
-
             font-weight: 600;
-
         }
-
-
 
         .form-input {
-
             width: 100%;
-
             padding: 10px 12px;
-
             border: 1px solid #ccc;
-
             border-radius: 8px;
-
             font-size: 13px;
-
             background-color: #fafafa;
-
             outline: none;
-
             font-family: inherit;
-
         }
-
-
 
         .form-input:focus {
-
             border-color: #a39e6a;
-
             background-color: #fff;
-
         }
-
-
 
         .submit-rsvp-btn {
-
             background-color: #a39e6a;
-
             color: white;
-
             border: none;
-
             padding: 12px;
-
             border-radius: 25px;
-
             width: 100%;
-
             font-weight: bold;
-
             font-size: 14px;
-
             cursor: pointer;
-
             margin-top: 10px;
-
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-
             transition: background 0.2s;
-
         }
-
-
 
         .submit-rsvp-btn:hover {
-
             background-color: #8c8758;
-
         }
-
-
 
         /* Sampul / Pintu Gatefold Overlay */
-
         .envelope-overlay {
-
             position: absolute;
-
             top: 0;
-
             left: 0;
-
             width: 100%;
-
             height: 100%;
-
             display: flex;
-
             z-index: 10;
-
             pointer-events: auto;
-
         }
-
-
 
         .door-left, .door-right {
-
             width: 50%;
-
             height: 100%;
-
             background-image: url('cover.png');
-
             background-size: 200% 100%;
-
             transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-
         }
-
-
 
         .door-left {
-
             background-position: left center;
-
             box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
-
         }
-
-
 
         .door-right {
-
             background-position: right center;
-
             box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
-
         }
-
-
 
         /* Wax Seal */
-
         .wax-seal {
-
             position: absolute;
-
             top: 50%;
-
             left: 50%;
-
             transform: translate(-50%, -50%);
-
             width: 120px;
-
             height: 120px;
-
             background: transparent;
-
             border: none;
-
             border-radius: 50%;
-
             display: flex;
-
             flex-direction: column;
-
             justify-content: center;
-
             align-items: center;
-
             color: #ffffff;
-
             font-weight: bold;
-
             font-size: 13px;
-
             cursor: pointer;
-
             z-index: 20;
-
             transition: transform 0.3s ease, opacity 0.8s ease;
-
             animation: pulse 2s infinite;
-
         }
-
-
 
         .wax-seal span {
-
             font-size: 12px;
-
             letter-spacing: 1px;
-
             text-transform: uppercase;
-
             text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
-
         }
-
-
 
         .open .door-left { transform: translateX(-100%); }
-
         .open .door-right { transform: translateX(100%); }
-
         .open .wax-seal {
-
             opacity: 0;
-
             pointer-events: none;
-
             transform: translate(-50%, -50%) scale(1.5);
-
         }
-
         .open { pointer-events: none; }
 
-
-
         @keyframes pulse {
-
             0% { transform: translate(-50%, -50%) scale(1); }
-
             50% { transform: translate(-50%, -50%) scale(1.06); }
-
             100% { transform: translate(-50%, -50%) scale(1); }
-
         }
-
-
 
         /* Modal Pop-up General */
-
         .btn {
-
             padding: 12px 18px;
-
             text-decoration: none;
-
             border-radius: 25px;
-
             font-weight: bold;
-
             font-size: 14px;
-
             display: inline-flex;
-
             align-items: center;
-
             justify-content: center;
-
             gap: 8px;
-
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-
             width: 100%;
-
         }
-
-
 
         .btn-waze { background-color: #33ccff; color: white; }
-
         .btn-gmaps { background-color: #4285F4; color: white; }
-
         .btn-phone { background-color: #27ae60; color: white; }
 
-
-
         .modal {
-
             display: none;
-
             position: absolute;
-
             top: 0;
-
             left: 0;
-
             width: 100%;
-
             height: 100%;
-
             background: rgba(0, 0, 0, 0.6);
-
             z-index: 30;
-
             justify-content: center;
-
             align-items: center;
-
         }
-
-
 
         .modal-content {
-
             background: #fff;
-
             padding: 25px 20px;
-
             border-radius: 12px;
-
             width: 88%;
-
             max-width: 340px;
-
             text-align: center;
-
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-
             max-height: 85vh;
-
             overflow-y: auto;
-
         }
-
-
 
         .modal-content h4 {
-
             margin-bottom: 15px;
-
             color: #333;
-
         }
-
-
 
         .modal-btns {
-
             display: flex;
-
             flex-direction: column;
-
             gap: 10px;
-
         }
-
-
 
         .close-btn {
-
             margin-top: 15px;
-
             background: none;
-
             border: none;
-
             color: #888;
-
             cursor: pointer;
-
             font-size: 13px;
-
         }
-
-
 
         /* FOOTER NAVIGASI BAWAH */
-
         .footer-nav {
-
             position: absolute;
-
             bottom: 0;
-
             left: 0;
-
             width: 100%;
-
             height: 65px;
-
             background-color: #a39e6a;
-
             display: flex;
-
             justify-content: space-around;
-
             align-items: center;
-
             z-index: 5;
-
             box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
-
         }
-
-
 
         .footer-item {
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
             justify-content: center;
-
             color: #ffffff;
-
             text-decoration: none;
-
             font-size: 11px;
-
             font-weight: 500;
-
             flex: 1;
-
             cursor: pointer;
-
             border: none;
-
             background: none;
-
             outline: none;
-
         }
-
-
 
         .footer-item i {
-
             font-size: 20px;
-
             margin-bottom: 4px;
-
         }
-
-
 
         .footer-item:active {
-
             opacity: 0.7;
-
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
     <div class="card-container">
-
         <!-- Overlay Pintu & Wax Seal -->
-
         <div class="envelope-overlay" id="envelope">
-
             <div class="door-left"></div>
-
             <div class="door-right"></div>
-
             <div class="wax-seal" onclick="openCard()">
-
                 <span>BUKA KAD</span>
-
             </div>
-
         </div>
-
-
 
         <!-- Isi Kad Di Dalam -->
-
         <div class="card-inside" id="cardInside">
-
             <img src="2.png" alt="Muka Surat 2">
-
             <img src="3.png" alt="Muka Surat 3">
-
             <img src="4.png" alt="Muka Surat 4">
 
-
-
             <!-- Bahagian Kaunter Kehadiran Live -->
-
             <div class="rsvp-counter-container">
-
                 <h3>KEHADIRAN</h3>
-
                 <div class="counter-box">
-
                     <div class="stat">
-
                         <span id="countHadir" class="count-number">0</span>
-
                         <span class="count-label">Hadir</span>
-
                     </div>
-
                     <div class="stat">
-
                         <span id="countTakHadir" class="count-number">0</span>
-
                         <span class="count-label">Tidak Hadir</span>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
-
 
         <!-- FOOTER NAVIGASI BAWAH -->
-
         <div class="footer-nav">
-
             <!-- 1. Muzik -->
-
             <button class="footer-item" onclick="toggleAudio()">
-
                 <i class="fa-solid fa-circle-play" id="musicIcon"></i>
-
                 <span>Muzik</span>
-
             </button>
-
-
 
             <!-- 2. Kalendar -->
-
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+Syafiq+%26+Zizi&location=Villa+Adina,+Titiwangsa,+Kuala+Lumpur" target="_blank" class="footer-item">
-
                 <i class="fa-regular fa-calendar-days"></i>
-
                 <span>Kalendar</span>
-
             </a>
 
-
-
             <!-- 3. Lokasi -->
-
             <button class="footer-item" onclick="openModal('locationModal')">
-
                 <i class="fa-solid fa-location-dot"></i>
-
                 <span>Lokasi</span>
-
             </button>
-
-
 
             <!-- 4. Hubungi -->
-
             <button class="footer-item" onclick="openModal('contactModal')">
-
                 <i class="fa-solid fa-phone"></i>
-
                 <span>Hubungi</span>
-
             </button>
-
-
 
             <!-- 5. RSVP -->
-
             <button class="footer-item" onclick="openModal('rsvpModal')">
-
                 <i class="fa-regular fa-envelope"></i>
-
                 <span>RSVP</span>
-
             </button>
-
         </div>
-
-
 
         <!-- MODAL POPUP: RSVP & UCAPAN -->
-
         <div class="modal" id="rsvpModal">
-
             <div class="modal-content">
-
                 <div class="rsvp-section-modal">
-
                     <div class="divider-ornament">❖ ─── ❖ ─── ❖</div>
-
                     <h3>RSVP & UCAPAN</h3>
 
-
-
                     <form id="rsvpForm" onsubmit="submitRSVP(event)">
-
                         
-
                         <!-- Pilihan Kehadiran -->
-
                         <div class="form-group">
-
                             <label for="inputStatus">Pengesahan Kehadiran</label>
-
                             <select id="inputStatus" class="form-input" onchange="togglePaxField(this.value)">
-
                                 <option value="Hadir">Hadir</option>
-
                                 <option value="Tidak Hadir">Tidak Hadir</option>
-
                             </select>
-
                         </div>
-
-
 
                         <!-- Input Pax -->
-
                         <div class="form-group" id="paxGroup">
-
                             <label for="inputPax">Jumlah Kehadiran (Pax)</label>
-
                             <select id="inputPax" class="form-input">
-
                                 <option value="1">1 Orang</option>
-
                                 <option value="2">2 Orang</option>
-
                                 <option value="3">3 Orang</option>
-
                                 <option value="4">4 Orang</option>
-
                                 <option value="5">5 Orang</option>
-
                             </select>
-
                         </div>
-
-
 
                         <!-- Input Ucapan -->
-
                         <div class="form-group">
-
                             <label for="inputUcapan">Ucapan & Doa</label>
-
                             <textarea id="inputUcapan" class="form-input" rows="3" placeholder="Tuliskan ucapan anda..."></textarea>
-
                         </div>
 
-
-
                         <button type="submit" class="submit-rsvp-btn" id="btnSubmit">Hantar Pengesahan</button>
-
                     </form>
-
                 </div>
-
                 <button class="close-btn" onclick="closeModal('rsvpModal')">Batal / Tutup</button>
-
             </div>
-
         </div>
-
-
 
         <!-- Modal Notifikasi Berjaya Hantar -->
-
         <div class="modal" id="successModal">
-
             <div class="modal-content" style="text-align: center; padding: 30px 20px;">
-
                 <i class="fa-solid fa-circle-check" style="font-size: 50px; color: #a39e6a; margin-bottom: 12px;"></i>
-
                 <h4 style="margin-bottom: 8px; color: #4a4237; font-size: 18px;">Terima Kasih!</h4>
-
                 <p style="font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.4;">Pengesahan kehadiran anda telah berjaya dihantar.</p>
-
                 <button class="submit-rsvp-btn" onclick="closeModal('successModal')">Tutup</button>
-
             </div>
-
         </div>
-
-
 
         <!-- Modal Popup: Lokasi -->
-
         <div class="modal" id="locationModal">
-
             <div class="modal-content">
-
                 <h4>Pilih Navigasi Lokasi</h4>
-
                 <div class="modal-btns">
-
                     <a href="https://www.waze.com/en-GB/live-map/directions?to=ll.3.18198%2C101.703851" target="_blank" class="btn btn-waze">
-
                         <i class="fa-brands fa-waze"></i> Waze
-
                     </a>
-
                     <a href="https://www.google.com/maps/dir//Villa+Adina,+1,+Lorong+Titiwangsa+2,+Titiwangsa,+53200+Kuala+Lumpur,+Federal+Territory+of+Kuala+Lumpur/@6.4409343,100.3385632,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x31cc491141912923:0x79655938acd2cb20!2m2!1d101.7036893!2d3.1820574?hl=en-GB&entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-gmaps">
-
                         <i class="fa-solid fa-location-dot"></i> Google Maps
-
                     </a>
-
                 </div>
-
                 <button class="close-btn" onclick="closeModal('locationModal')">Tutup</button>
-
             </div>
-
         </div>
-
-
 
         <!-- Modal Popup: Hubungi -->
-
         <div class="modal" id="contactModal">
-
             <div class="modal-content">
-
                 <h4>Hubungi Penganjur</h4>
-
                 <div class="modal-btns">
-
                     <a href="tel:0123267454" class="btn btn-phone">
-
                         <i class="fa-solid fa-phone"></i> Intan (012-326 7454)
-
                     </a>
-
                     <a href="tel:0123347814" class="btn btn-phone">
-
                         <i class="fa-solid fa-phone"></i> Sabree (012-334 7814)
-
                     </a>
-
                 </div>
-
                 <button class="close-btn" onclick="closeModal('contactModal')">Tutup</button>
-
             </div>
-
         </div>
-
-
 
     </div>
 
-
-
     <!-- Fail Lagu Audio -->
-
     <audio id="bgMusic" loop preload="auto">
-
         <source src="lagu.mp3" type="audio/mpeg">
-
     </audio>
 
-
-
     <script>
-
         const audio = document.getElementById('bgMusic');
-
         const musicIcon = document.getElementById('musicIcon');
 
-
-
         /* URL Web App Google Apps Script Anda */
-
         const API_URL = "https://script.google.com/macros/s/AKfycbzEeXtWO-haYn4rxP9XfxTKzeDF6IVCXdqYuWXtszu8cXPDFw0a3Oqw0aR1mHte63FlTw/exec";
 
-
-
         function openCard() {
-
             const envelope = document.getElementById('envelope');
-
             envelope.classList.add('open');
-
             
-
             setTimeout(() => {
-
                 envelope.style.display = 'none';
-
             }, 1200);
 
-
-
             playAudioDirect();
-
         }
-
-
 
         function playAudioDirect() {
-
             audio.currentTime = 0;
-
             audio.volume = 1.0;
-
             
-
             let playPromise = audio.play();
 
-
-
             if (playPromise !== undefined) {
-
                 playPromise.then(() => {
-
                     musicIcon.className = "fa-solid fa-circle-pause";
-
                 }).catch(error => {
-
                     console.log("Error mainkan audio:", error);
-
                     audio.play();
-
                     musicIcon.className = "fa-solid fa-circle-pause";
-
                 });
-
             }
-
         }
-
-
 
         function toggleAudio() {
-
             if (audio.paused) {
-
                 audio.play().then(() => {
-
                     musicIcon.className = "fa-solid fa-circle-pause";
-
                 }).catch(e => console.log(e));
-
             } else {
-
                 audio.pause();
-
                 musicIcon.className = "fa-solid fa-circle-play";
-
             }
-
         }
-
-
 
         /* Kawalan Popup Modal */
-
         function openModal(id) {
-
             document.getElementById(id).style.display = 'flex';
-
         }
-
-
 
         function closeModal(id) {
-
             document.getElementById(id).style.display = 'none';
-
         }
-
-
 
         /* Tunjukkan / Sembunyikan Pax */
-
         function togglePaxField(status) {
-
             const paxGroup = document.getElementById('paxGroup');
-
             if (status === 'Hadir') {
-
                 paxGroup.style.display = 'block';
-
             } else {
-
                 paxGroup.style.display = 'none';
-
             }
-
         }
 
-
-
-        /* Mengambil Data Kehadiran Live dari Apps Script (Fix Redirect & Cache) */
-
+        /* Mengambil Data Kehadiran Live dari Apps Script */
         function fetchRSVPCount() {
-
             if (!API_URL) return;
 
-
-
-            // Tambah timestamp untuk elak browser simpan cache lama
-
             fetch(API_URL + "?t=" + new Date().getTime(), {
-
                 method: "GET",
-
                 redirect: "follow"
-
             })
-
             .then(response => response.json())
-
             .then(data => {
-
                 if (data && data.hadir !== undefined) {
-
                     document.getElementById('countHadir').innerText = data.hadir;
-
                     document.getElementById('countTakHadir').innerText = data.takHadir;
-
                 }
-
             })
-
             .catch(err => console.error("Error fetching RSVP:", err));
-
         }
 
-
-
-        /* Menghantar Data Form RSVP ke Google Sheets (Fix Mode CORS Payload) */
-
+        /* Menghantar Data Form RSVP ke Google Sheets */
         function submitRSVP(e) {
-
             e.preventDefault();
 
-
-
             const submitBtn = document.getElementById('btnSubmit');
-
             submitBtn.innerText = "Hantar...";
-
             submitBtn.disabled = true;
 
-
-
             const payload = {
-
                 status: document.getElementById('inputStatus').value,
-
                 pax: document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0,
-
                 ucapan: document.getElementById('inputUcapan').value
-
             };
 
-
-
-            // Menggunakan URLSearchParams/text plain supaya tak kena block CORS waktu POST
-
             fetch(API_URL, {
-
                 method: 'POST',
-
                 mode: 'no-cors',
-
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-
                 body: JSON.stringify(payload)
-
             })
-
             .then(() => {
-
                 document.getElementById('rsvpForm').reset();
-
                 togglePaxField('Hadir');
-
                 submitBtn.innerText = "Hantar Pengesahan";
-
                 submitBtn.disabled = false;
-
                 
-
                 closeModal('rsvpModal');
-
                 openModal('successModal');
-
                 
-
                 // Tarik semula nombor terkini selepas 2 saat
-
                 setTimeout(fetchRSVPCount, 2000); 
-
             })
-
             .catch(err => {
-
                 alert("Maaf, berlaku ralat. Sila cuba lagi.");
-
                 submitBtn.innerText = "Hantar Pengesahan";
-
                 submitBtn.disabled = false;
-
             });
-
         }
 
-
-
         // Jalankan fungsi tarik data kehadiran sebaik sahaja web dimuatkan
-
         window.addEventListener('DOMContentLoaded', fetchRSVPCount);
-
     </script>
-
 </body>
-
 </html>
