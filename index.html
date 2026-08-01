@@ -149,7 +149,7 @@
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Bahagian Lokasi & RSVP Dalaman */
+        /* Bahagian Lokasi & Hubungi Dalaman */
         .action-section {
             padding: 30px 20px;
             background-color: #faf8f5;
@@ -171,7 +171,7 @@
             display: flex;
             gap: 10px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
@@ -189,6 +189,7 @@
 
         .btn-waze { background-color: #33ccff; color: white; }
         .btn-gmaps { background-color: #4285F4; color: white; }
+        .btn-whatsapp { background-color: #25D366; color: white; }
         .btn-rsvp {
             background-color: #673ab7;
             color: white;
@@ -197,14 +198,58 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
 
-        /* FOOTER NAVIGASI (Sama Macam Gambar) */
+        /* Modal Dialog untuk Pilihan Hubungi */
+        .modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 30;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 25px 20px;
+            border-radius: 12px;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h4 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .close-btn {
+            margin-top: 15px;
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        /* FOOTER NAVIGASI BAWAH */
         .footer-nav {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 65px;
-            background-color: #a39e6a; /* Warna Olive / Gold Macam Gambar */
+            background-color: #a39e6a; /* Warna Olive / Gold */
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -258,7 +303,29 @@
             <img src="4.png" alt="Muka Surat 4">
             <img src="5.png" alt="Muka Surat 5">
 
-        
+            <!-- Bahagian Lokasi & RSVP Dalam Kad -->
+            <div class="action-section" id="lokasi-section">
+                <h3>Lokasi Majlis</h3>
+                <p>Villa Adina, Titiwangsa, Kuala Lumpur</p>
+                <div class="btn-group">
+                    <a href="https://www.waze.com/en-GB/live-map/directions?to=ll.3.18198%2C101.703851" target="_blank" class="btn btn-waze">
+                        <i class="fa-brands fa-waze"></i> Waze
+                    </a>
+                    <a href="https://www.google.com/maps/dir//Villa+Adina,+1,+Lorong+Titiwangsa+2,+Titiwangsa,+53200+Kuala+Lumpur,+Federal+Territory+of+Kuala+Lumpur/@6.4409343,100.3385632,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x31cc491141912923:0x79655938acd2cb20!2m2!1d101.7036893!2d3.1820574?hl=en-GB&entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-gmaps">
+                        <i class="fa-solid fa-location-dot"></i> Google Maps
+                    </a>
+                </div>
+
+                <div id="rsvp-section" style="padding-top: 10px;">
+                    <h3>Pengesahan Kehadiran</h3>
+                    <div class="btn-group">
+                        <a href="https://forms.gle/BazWEPJnGTUs2Att9" target="_blank" class="btn btn-rsvp">
+                            <i class="fa-regular fa-envelope"></i> Isu RSVP Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- FOOTER NAVIGASI BAWAH -->
         <div class="footer-nav">
@@ -266,26 +333,47 @@
                 <i class="fa-solid fa-circle-play" id="musicIcon"></i>
                 <span>Muzik</span>
             </button>
+
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+Syafiq+%26+Zizi&location=Villa+Adina,+Titiwangsa,+Kuala+Lumpur" target="_blank" class="footer-item">
                 <i class="fa-regular fa-calendar-days"></i>
                 <span>Kalendar</span>
             </a>
+
             <button class="footer-item" onclick="scrollToSection('lokasi-section')">
                 <i class="fa-solid fa-location-dot"></i>
                 <span>Lokasi</span>
             </button>
-            <a href="https://wa.me/60123456789?text=Hai,%20saya%20ada%20soalan%20mengenai%20majlis" target="_blank" class="footer-item">
+
+            <button class="footer-item" onclick="openContactModal()">
                 <i class="fa-regular fa-comment-dots"></i>
                 <span>Hubungi</span>
-            </a>
-            <button class="footer-item" onclick="scrollToSection('rsvp-section')">
+            </button>
+
+            <a href="https://forms.gle/BazWEPJnGTUs2Att9" target="_blank" class="footer-item">
                 <i class="fa-regular fa-envelope"></i>
                 <span>RSVP</span>
-            </button>
+            </a>
         </div>
+
+        <!-- Pop-up pilihan Hubungi (WhatsApp) -->
+        <div class="modal" id="contactModal">
+            <div class="modal-content">
+                <h4>Hubungi Kami</h4>
+                <div class="modal-btns">
+                    <a href="https://wa.me/60123267454?text=Hai%20Intan,%20saya%20ada%20soalan%20mengenai%20majlis" target="_blank" class="btn btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> Intan (012-326 7454)
+                    </a>
+                    <a href="https://wa.me/60123347814?text=Hai%20Sabree,%20saya%20ada%20soalan%20mengenai%20majlis" target="_blank" class="btn btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> Sabree (012-334 7814)
+                    </a>
+                </div>
+                <button class="close-btn" onclick="closeContactModal()">Tutup</button>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Lagu Latar (Boleh tukar fail lagu jika ada) -->
+    <!-- Lagu Latar -->
     <audio id="bgMusic" loop>
         <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
     </audio>
@@ -293,7 +381,6 @@
     <script>
         function openCard() {
             document.getElementById('envelope').classList.add('open');
-            // Mula mainkan lagu secara automatik bila kad dibuka
             playAudio();
         }
 
@@ -301,6 +388,16 @@
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
+        /* Modal Contact */
+        function openContactModal() {
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        /* Audio Controls */
         const audio = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
 
