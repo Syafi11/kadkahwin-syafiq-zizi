@@ -309,7 +309,7 @@
         <!-- Modal Popup: Lokasi (Waze / Google Maps) -->
         <div class="modal" id="locationModal">
             <div class="modal-content">
-               
+                <h4>Pilih Navigasi Lokasi</h4>
                 <div class="modal-btns">
                     <a href="https://www.waze.com/en-GB/live-map/directions?to=ll.3.18198%2C101.703851" target="_blank" class="btn btn-waze">
                         <i class="fa-brands fa-waze"></i> Waze
@@ -325,10 +325,10 @@
         <!-- Modal Popup: Hubungi (Direct Phone Call) -->
         <div class="modal" id="contactModal">
             <div class="modal-content">
-                <h4>Hubungi </h4>
+                <h4>Hubungi Penganjur</h4>
                 <div class="modal-btns">
-                    <a href="tel:0139943828" class="btn btn-phone">
-                        <i class="fa-solid fa-phone"></i> syafi (013-9943828)
+                    <a href="tel:0123267454" class="btn btn-phone">
+                        <i class="fa-solid fa-phone"></i> Intan (012-326 7454)
                     </a>
                     <a href="tel:0123347814" class="btn btn-phone">
                         <i class="fa-solid fa-phone"></i> Sabree (012-334 7814)
@@ -340,31 +340,28 @@
 
     </div>
 
-    <!-- Lagu Latar -->
+    <!-- Fail Lagu MP3 -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+        <source src="lagu.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         const audio = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
 
-        // Dipanggil sebaik tetamu tekan butang Wax Seal (Buka Kad)
         function openCard() {
             document.getElementById('envelope').classList.add('open');
             playAudio();
         }
 
-        // Fungsi memainkan audio dan mengemaskini ikon ke PAUSE
         function playAudio() {
             audio.play().then(() => {
                 musicIcon.className = "fa-solid fa-circle-pause";
-            }).catch(error => {
-                console.log("Autoplay dihalang pelayar:", error);
+            }).catch(e => {
+                console.log("Autoplay blocked:", e);
             });
         }
 
-        // Fungsi menukar keadaan play / pause bila butang Muzik di footer ditekan
         function toggleAudio() {
             if (audio.paused) {
                 audio.play();
@@ -375,7 +372,7 @@
             }
         }
 
-        /* Kawalan Popup Modal Lokasi & Hubungi */
+        /* Kawalan Popup Modal */
         function openModal(id) {
             document.getElementById(id).style.display = 'flex';
         }
