@@ -435,12 +435,6 @@
                             </select>
                         </div>
 
-                        <!-- Input Nama -->
-                        <div class="form-group">
-                            <label for="inputNama">Nama</label>
-                            <input type="text" id="inputNama" class="form-input" placeholder="Masukkan nama anda" required>
-                        </div>
-
                         <!-- Input Pax -->
                         <div class="form-group" id="paxGroup">
                             <label for="inputPax">Jumlah Kehadiran (Pax)</label>
@@ -603,7 +597,7 @@
 
             const payload = {
                 status: document.getElementById('inputStatus').value,
-                nama: document.getElementById('inputNama').value,
+                nama: "-", // Medan nama telah dibuang
                 pax: document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0,
                 ucapan: document.getElementById('inputUcapan').value
             };
