@@ -47,7 +47,7 @@
             overflow-y: auto;
             text-align: center;
             background-color: #faf8f5;
-            padding-bottom: 70px; /* Ruang supaya tidak tertutup footer */
+            padding-bottom: 70px;
             scroll-behavior: smooth;
         }
 
@@ -341,7 +341,7 @@
     </div>
 
     <!-- Lagu Latar -->
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop preload="auto">
         <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
     </audio>
 
@@ -349,27 +349,22 @@
         const audio = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
 
+        // Dipanggil sebaik tetamu tekan butang Wax Seal (Buka Kad)
         function openCard() {
             document.getElementById('envelope').classList.add('open');
             playAudio();
         }
 
-        /* Kawalan Popup Modal */
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        /* Kawalan Audio Play/Pause */
+        // Fungsi memainkan audio dan mengemaskini ikon ke PAUSE
         function playAudio() {
             audio.play().then(() => {
                 musicIcon.className = "fa-solid fa-circle-pause";
-            }).catch(e => console.log("Autoplay blocked:", e));
+            }).catch(error => {
+                console.log("Autoplay dihalang pelayar:", error);
+            });
         }
 
+        // Fungsi menukar keadaan play / pause bila butang Muzik di footer ditekan
         function toggleAudio() {
             if (audio.paused) {
                 audio.play();
@@ -378,6 +373,15 @@
                 audio.pause();
                 musicIcon.className = "fa-solid fa-circle-play";
             }
+        }
+
+        /* Kawalan Popup Modal Lokasi & Hubungi */
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
     </script>
 </body>
