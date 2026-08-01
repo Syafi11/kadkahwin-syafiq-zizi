@@ -91,37 +91,37 @@
             box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Wax Seal (Butang Buka) */
+        /* Wax Seal (Butang Buka Transparent) */
         .wax-seal {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90px;
-            height: 90px;
-            background: radial-gradient(circle, #c59b27 0%, #8a640f 100%);
+            width: 120px;
+            height: 120px;
+            background: transparent;
+            border: none;
             border-radius: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            color: #4a3b10;
             font-weight: bold;
-            font-size: 11px;
+            font-size: 13px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(255, 255, 255, 0.3);
-            border: 3px solid #dfb33b;
             z-index: 20;
             transition: transform 0.3s ease, opacity 0.8s ease;
             animation: pulse 2s infinite;
         }
 
         .wax-seal span {
-            margin-top: 2px;
-            font-size: 9px;
+            margin-top: 0;
+            font-size: 12px;
             letter-spacing: 1px;
             text-transform: uppercase;
+            text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.7);
         }
 
         /* Animasi Buka Apabila Ditekan */
@@ -261,8 +261,7 @@
             <div class="door-left"></div>
             <div class="door-right"></div>
             <div class="wax-seal" onclick="openCard()">
-                🌸
-                <span>Buka Kad</span>
+                <span>BUKA KAD</span>
             </div>
         </div>
 
@@ -349,33 +348,34 @@
         const audio = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
 
+        // Memastikan audio divalidasi semasa fail siap dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            audio.load();
+        });
+
         function openCard() {
             document.getElementById('envelope').classList.add('open');
             playAudio();
         }
 
         function playAudio() {
-            audio.muted = false;
-            let playPromise = audio.play();
-
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    musicIcon.className = "fa-solid fa-circle-pause";
-                }).catch(error => {
-                    console.log("Autoplay disekat:", error);
-                    musicIcon.className = "fa-solid fa-circle-play";
-                    
-                    // Fallback: Akses sentuhan terus untuk aktifkan audio
-                    document.body.addEventListener('click', unlockAudio, { once: true });
-                    document.body.addEventListener('touchstart', unlockAudio, { once: true });
-                });
-            }
-        }
-
-        function unlockAudio() {
             audio.play().then(() => {
                 musicIcon.className = "fa-solid fa-circle-pause";
-            }).catch(e => console.log(e));
+            }).catch(error => {
+                console.log("Autoplay disekat oleh pelayar:", error);
+                
+                // Fallback: Aktifkan audio serta merta pada sebarang interaksi pengguna
+                const unlock = () => {
+                    audio.play().then(() => {
+                        musicIcon.className = "fa-solid fa-circle-pause";
+                    }).catch(e => console.log(e));
+                    document.removeEventListener('click', unlock);
+                    document.removeEventListener('touchstart', unlock);
+                };
+
+                document.addEventListener('click', unlock);
+                document.addEventListener('touchstart', unlock);
+            });
         }
 
         function toggleAudio() {
