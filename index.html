@@ -106,7 +106,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #4a3b10;
+            color: #ffffff; /* Warna tulisan ditukar ke putih */
             font-weight: bold;
             font-size: 13px;
             text-align: center;
@@ -121,7 +121,7 @@
             font-size: 12px;
             letter-spacing: 1px;
             text-transform: uppercase;
-            text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.7);
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8); /* Shadow gelap supaya perkataan tajam & jelas */
         }
 
         /* Animasi Buka Apabila Ditekan */
@@ -292,7 +292,7 @@
                 <span>Lokasi</span>
             </button>
 
-            <!-- 4. Hubungi (Tukar kepada ikon telefon fa-phone) -->
+            <!-- 4. Hubungi -->
             <button class="footer-item" onclick="openModal('contactModal')">
                 <i class="fa-solid fa-phone"></i>
                 <span>Hubungi</span>
@@ -353,7 +353,6 @@
             playAudioDirect();
         }
 
-        // Fungsi khas main audio terus melalui event klik manusia
         function playAudioDirect() {
             audio.currentTime = 0;
             audio.volume = 1.0;
@@ -365,7 +364,6 @@
                     musicIcon.className = "fa-solid fa-circle-pause";
                 }).catch(error => {
                     console.log("Error mainkan audio:", error);
-                    // Jika browser sekat, cuba lagi sekali dengan binaan audio secara terus
                     audio.play();
                     musicIcon.className = "fa-solid fa-circle-pause";
                 });
