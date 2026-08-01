@@ -57,33 +57,70 @@
             display: block;
         }
 
-        /* Seksyen RSVP & UCAPAN (Interactive Form) */
-        .rsvp-section {
+        /* Seksyen Kaunter Kehadiran Live (Kekal Dalam Page) */
+        .rsvp-counter-container {
             background: #ffffff;
-            margin: 20px 15px 10px 15px;
-            padding: 25px 18px;
+            margin: 20px 15px 30px 15px;
+            padding: 20px 15px;
             border-radius: 12px;
             border: 1px solid #e0d8c3;
             box-shadow: 0 4px 10px rgba(0,0,0,0.03);
             text-align: center;
         }
 
-        .rsvp-section h3 {
+        .rsvp-counter-container h3 {
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #6b5e4a;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .counter-box {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .count-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #7a7049;
+            font-family: 'Georgia', serif;
+        }
+
+        .count-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Input Form Style Untuk Modal */
+        .rsvp-section-modal {
+            text-align: center;
+        }
+
+        .rsvp-section-modal h3 {
             font-size: 15px;
             letter-spacing: 2px;
             color: #4a4237;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: 700;
         }
 
         .divider-ornament {
-            margin: 0 0 20px 0;
+            margin: 0 0 15px 0;
             color: #a39e6a;
             font-size: 12px;
             letter-spacing: 4px;
         }
 
-        /* Input Form Style */
         .form-group {
             margin-bottom: 12px;
             text-align: left;
@@ -130,54 +167,6 @@
 
         .submit-rsvp-btn:hover {
             background-color: #8c8758;
-        }
-
-        .submit-rsvp-btn:active {
-            opacity: 0.8;
-        }
-
-        /* Seksyen Kaunter Kehadiran Live */
-        .rsvp-counter-container {
-            background: #ffffff;
-            margin: 10px 15px 30px 15px;
-            padding: 20px 15px;
-            border-radius: 12px;
-            border: 1px solid #e0d8c3;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            text-align: center;
-        }
-
-        .rsvp-counter-container h3 {
-            font-size: 14px;
-            letter-spacing: 2px;
-            color: #6b5e4a;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .counter-box {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .count-number {
-            font-size: 32px;
-            font-weight: bold;
-            color: #7a7049;
-            font-family: 'Georgia', serif;
-        }
-
-        .count-label {
-            font-size: 13px;
-            color: #666;
-            margin-top: 4px;
         }
 
         /* Sampul / Pintu Gatefold Overlay */
@@ -241,7 +230,6 @@
             text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
-        /* Animasi Buka */
         .open .door-left { transform: translateX(-100%); }
         .open .door-right { transform: translateX(100%); }
         .open .wax-seal {
@@ -257,7 +245,7 @@
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Modal Pop-up */
+        /* Modal Pop-up General */
         .btn {
             padding: 12px 18px;
             text-decoration: none;
@@ -293,10 +281,12 @@
             background: #fff;
             padding: 25px 20px;
             border-radius: 12px;
-            width: 85%;
-            max-width: 320px;
+            width: 88%;
+            max-width: 340px;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         .modal-content h4 {
@@ -378,50 +368,6 @@
             <img src="3.png" alt="Muka Surat 3">
             <img src="4.png" alt="Muka Surat 4">
 
-            <!-- Bahagian RSVP & UCAPAN -->
-            <div class="rsvp-section" id="rsvpDirectSection">
-                <div class="divider-ornament">❖ ─── ❖ ─── ❖</div>
-                <h3>RSVP & UCAPAN</h3>
-
-                <form id="rsvpForm" onsubmit="submitRSVP(event)">
-                    
-                    <!-- Pilihan Kehadiran (Dropdown Menu) -->
-                    <div class="form-group">
-                        <label for="inputStatus">Pengesahan Kehadiran</label>
-                        <select id="inputStatus" class="form-input" onchange="togglePaxField(this.value)">
-                            <option value="Hadir">Hadir</option>
-                            <option value="Tidak Hadir">Tidak Hadir</option>
-                        </select>
-                    </div>
-
-                    <!-- Input Nama -->
-                    <div class="form-group">
-                        <label for="inputNama">Nama Penuh</label>
-                        <input type="text" id="inputNama" class="form-input" placeholder="Masukkan nama anda" required>
-                    </div>
-
-                    <!-- Input Pax -->
-                    <div class="form-group" id="paxGroup">
-                        <label for="inputPax">Jumlah Kehadiran (Pax)</label>
-                        <select id="inputPax" class="form-input">
-                            <option value="1">1 Orang</option>
-                            <option value="2">2 Orang</option>
-                            <option value="3">3 Orang</option>
-                            <option value="4">4 Orang</option>
-                            <option value="5">5 Orang</option>
-                        </select>
-                    </div>
-
-                    <!-- Input Ucapan -->
-                    <div class="form-group">
-                        <label for="inputUcapan">Ucapan & Doa</label>
-                        <textarea id="inputUcapan" class="form-input" rows="3" placeholder="Tuliskan ucapan anda..."></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-rsvp-btn" id="btnSubmit">Hantar Pengesahan</button>
-                </form>
-            </div>
-
             <!-- Bahagian Kaunter Kehadiran Live -->
             <div class="rsvp-counter-container">
                 <h3>KEHADIRAN</h3>
@@ -436,7 +382,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- FOOTER NAVIGASI BAWAH -->
@@ -465,11 +410,60 @@
                 <span>Hubungi</span>
             </button>
 
-            <!-- 5. RSVP -->
-            <button class="footer-item" onclick="scrollToRSVP()">
+            <!-- 5. RSVP (Akan Buka Modal Pop-up) -->
+            <button class="footer-item" onclick="openModal('rsvpModal')">
                 <i class="fa-regular fa-envelope"></i>
                 <span>RSVP</span>
             </button>
+        </div>
+
+        <!-- MODAL POPUP: RSVP & UCAPAN -->
+        <div class="modal" id="rsvpModal">
+            <div class="modal-content">
+                <div class="rsvp-section-modal">
+                    <div class="divider-ornament">❖ ─── ❖ ─── ❖</div>
+                    <h3>RSVP & UCAPAN</h3>
+
+                    <form id="rsvpForm" onsubmit="submitRSVP(event)">
+                        
+                        <!-- Pilihan Kehadiran -->
+                        <div class="form-group">
+                            <label for="inputStatus">Pengesahan Kehadiran</label>
+                            <select id="inputStatus" class="form-input" onchange="togglePaxField(this.value)">
+                                <option value="Hadir">Hadir</option>
+                                <option value="Tidak Hadir">Tidak Hadir</option>
+                            </select>
+                        </div>
+
+                        <!-- Input Nama -->
+                        <div class="form-group">
+                            <label for="inputNama">Nama Penuh</label>
+                            <input type="text" id="inputNama" class="form-input" placeholder="Masukkan nama anda" required>
+                        </div>
+
+                        <!-- Input Pax -->
+                        <div class="form-group" id="paxGroup">
+                            <label for="inputPax">Jumlah Kehadiran (Pax)</label>
+                            <select id="inputPax" class="form-input">
+                                <option value="1">1 Orang</option>
+                                <option value="2">2 Orang</option>
+                                <option value="3">3 Orang</option>
+                                <option value="4">4 Orang</option>
+                                <option value="5">5 Orang</option>
+                            </select>
+                        </div>
+
+                        <!-- Input Ucapan -->
+                        <div class="form-group">
+                            <label for="inputUcapan">Ucapan & Doa</label>
+                            <textarea id="inputUcapan" class="form-input" rows="3" placeholder="Tuliskan ucapan anda..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-rsvp-btn" id="btnSubmit">Hantar Pengesahan</button>
+                    </form>
+                </div>
+                <button class="close-btn" onclick="closeModal('rsvpModal')">Batal / Tutup</button>
+            </div>
         </div>
 
         <!-- Modal Popup: Lokasi -->
@@ -563,10 +557,6 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        function scrollToRSVP() {
-            document.getElementById('rsvpDirectSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
         /* Menyembunyikan/Menampilkan medan Jumlah Pax bergantung pada pilihan status */
         function togglePaxField(status) {
             const paxGroup = document.getElementById('paxGroup');
@@ -582,7 +572,7 @@
 
         /* Mengambil Data Kehadiran Live dari Apps Script */
         function fetchRSVPCount() {
-            if (!API_URL || API_URL.includes("URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI")) return;
+            if (!API_URL) return;
 
             fetch(API_URL)
                 .then(response => response.json())
@@ -593,7 +583,7 @@
                 .catch(err => console.error("Error fetching RSVP:", err));
         }
 
-        /* Menghantar Data Form RSVP terus ke Google Sheets & Update Counter secara Live */
+        /* Menghantar Data Form RSVP terus ke Google Sheets */
         function submitRSVP(e) {
             e.preventDefault();
 
@@ -620,6 +610,9 @@
                 togglePaxField('Hadir');
                 submitBtn.innerText = "Hantar Pengesahan";
                 submitBtn.disabled = false;
+                
+                // Tutup modal selepas hantar
+                closeModal('rsvpModal');
                 
                 // Ambil data terbaru selepas 1.5 saat untuk update nombor secara live
                 setTimeout(fetchRSVPCount, 1500); 
