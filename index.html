@@ -1,8 +1,171 @@
-<div style="position: relative; width: 100%; height: 0; padding-top: 140.9524%;
- padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
- border-radius: 8px; will-change: transform;">
-  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-    src="https://www.canva.com/design/DAHQeAreHpA/FzwoI67s_x3myfsHrW8jkQ/watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-  </iframe>
-</div>
-<a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAHQeAreHpA&#x2F;FzwoI67s_x3myfsHrW8jkQ&#x2F;watch?utm_content=DAHQeAreHpA&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Timeless Malay Wedding Invitation with Neutral Florals</a> by Syafi Aqil
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walimatulurus Syafiq & Zizi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Container Kad Utama */
+        .card-container {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            height: 90vh;
+            max-height: 750px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Isi Dalam Kad (Halaman Utama Majlis) */
+        .card-inside {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            text-align: center;
+            background-color: #faf8f5;
+        }
+
+        .card-inside img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Sampul / Pintu Gatefold Overlay */
+        .envelope-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        /* Pintu Kiri */
+        .door-left {
+            width: 50%;
+            height: 100%;
+            background-image: url('cover.png'); /* Nama fail gambar pintu/sampul */
+            background-position: left center;
+            background-size: 200% 100%;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Pintu Kanan */
+        .door-right {
+            width: 50%;
+            height: 100%;
+            background-image: url('cover.png'); /* Nama fail gambar pintu/sampul */
+            background-position: right center;
+            background-size: 200% 100%;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Wax Seal (Butang Tekan Buka) */
+        .wax-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #c59b27 0%, #8a640f 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 11px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(255, 255, 255, 0.3);
+            border: 3px solid #dfb33b;
+            z-index: 20;
+            transition: transform 0.3s ease, opacity 0.8s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .wax-seal span {
+            margin-top: 2px;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Animasi Buka Apabila Ditekan */
+        .open .door-left {
+            transform: translateX(-100%);
+        }
+
+        .open .door-right {
+            transform: translateX(100%);
+        }
+
+        .open .wax-seal {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+
+        .open {
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.06); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <!-- Overlay Pintu & Wax Seal -->
+        <div class="envelope-overlay" id="envelope">
+            <div class="door-left"></div>
+            <div class="door-right"></div>
+            <div class="wax-seal" onclick="openCard()">
+                🌸
+                <span>Buka Kad</span>
+            </div>
+        </div>
+
+        <!-- Isi Kad Di Dalam -->
+        <div class="card-inside">
+            <img src="card_inside.png" alt="Kad Kahwin Syafiq & Zizi">
+        </div>
+    </div>
+
+    <script>
+        function openCard() {
+            document.getElementById('envelope').classList.add('open');
+        }
+    </script>
+
+</body>
+</html>
