@@ -271,7 +271,6 @@
             <img src="2.png" alt="Muka Surat 2">
             <img src="3.png" alt="Muka Surat 3">
             <img src="4.png" alt="Muka Surat 4">
-            
         </div>
 
         <!-- FOOTER NAVIGASI BAWAH -->
@@ -347,6 +346,9 @@
     </audio>
 
     <script>
+        const audio = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+
         function openCard() {
             document.getElementById('envelope').classList.add('open');
             playAudio();
@@ -361,14 +363,11 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        /* Kawalan Audio */
-        const audio = document.getElementById('bgMusic');
-        const musicIcon = document.getElementById('musicIcon');
-
+        /* Kawalan Audio Play/Pause */
         function playAudio() {
             audio.play().then(() => {
                 musicIcon.className = "fa-solid fa-circle-pause";
-            }).catch(e => console.log("Autoplay blocked"));
+            }).catch(e => console.log("Autoplay blocked:", e));
         }
 
         function toggleAudio() {
@@ -381,6 +380,5 @@
             }
         }
     </script>
-
 </body>
 </html>
