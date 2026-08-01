@@ -57,7 +57,7 @@
             display: block;
         }
 
-        /* Seksyen Kaunter Kehadiran Live (Kekal Dalam Page) */
+        /* Seksyen Kaunter Kehadiran Live */
         .rsvp-counter-container {
             background: #ffffff;
             margin: 20px 15px 30px 15px;
@@ -410,7 +410,7 @@
                 <span>Hubungi</span>
             </button>
 
-            <!-- 5. RSVP (Akan Buka Modal Pop-up) -->
+            <!-- 5. RSVP -->
             <button class="footer-item" onclick="openModal('rsvpModal')">
                 <i class="fa-regular fa-envelope"></i>
                 <span>RSVP</span>
@@ -513,6 +513,9 @@
         const audio = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
 
+        /* URL Web App Google Apps Script Anda */
+        const API_URL = "https://script.google.com/macros/s/AKfycbzEeXtWO-haYn4rxP9XfxTKzeDF6IVCXdqYuWXtszu8cXPDFw0a3Oqw0aR1mHte63FlTw/exec";
+
         function openCard() {
             const envelope = document.getElementById('envelope');
             envelope.classList.add('open');
@@ -561,7 +564,7 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        /* Menyembunyikan/Menampilkan medan Jumlah Pax bergantung pada pilihan status */
+        /* Tunjukkan / Sembunyikan Pax */
         function togglePaxField(status) {
             const paxGroup = document.getElementById('paxGroup');
             if (status === 'Hadir') {
@@ -570,9 +573,6 @@
                 paxGroup.style.display = 'none';
             }
         }
-
-        /* URL Web App Google Apps Script */
-        const API_URL = "https://script.google.com/macros/s/AKfycbzEeXtWO-haYn4rxP9XfxTKzeDF6IVCXdqYuWXtszu8cXPDFw0a3Oqw0aR1mHte63FlTw/exec";
 
         /* Mengambil Data Kehadiran Live dari Apps Script */
         function fetchRSVPCount() {
@@ -587,7 +587,7 @@
                 .catch(err => console.error("Error fetching RSVP:", err));
         }
 
-        /* Menghantar Data Form RSVP terus ke Google Sheets */
+        /* Menghantar Data Form RSVP ke Google Sheets */
         function submitRSVP(e) {
             e.preventDefault();
 
@@ -597,7 +597,6 @@
 
             const payload = {
                 status: document.getElementById('inputStatus').value,
-                nama: "-", // Medan nama telah dibuang
                 pax: document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0,
                 ucapan: document.getElementById('inputUcapan').value
             };
@@ -614,11 +613,10 @@
                 submitBtn.innerText = "Hantar Pengesahan";
                 submitBtn.disabled = false;
                 
-                // Tutup modal borang & buka modal kejayaan custom
                 closeModal('rsvpModal');
                 openModal('successModal');
                 
-                // Ambil data terbaru selepas 1.5 saat untuk update nombor secara live
+                // Kemaskini nombor secara live selepas 1.5 saat
                 setTimeout(fetchRSVPCount, 1500); 
             })
             .catch(err => {
@@ -628,6 +626,7 @@
             });
         }
 
+        // Jalankan fungsi tarik data kehadiran sebaik sahaja web dimuatkan
         window.addEventListener('DOMContentLoaded', fetchRSVPCount);
     </script>
 </body>
