@@ -60,7 +60,7 @@
         /* Seksyen Kaunter Kehadiran Live */
         .rsvp-counter-container {
             background: #ffffff;
-            margin: 20px 15px;
+            margin: 20px 15px 10px 15px;
             padding: 20px 15px;
             border-radius: 12px;
             border: 1px solid #e0d8c3;
@@ -101,11 +101,127 @@
             margin-top: 4px;
         }
 
+        /* Seksyen RSVP & UCAPAN (Interactive Form) */
+        .rsvp-section {
+            background: #ffffff;
+            margin: 10px 15px 30px 15px;
+            padding: 25px 18px;
+            border-radius: 12px;
+            border: 1px solid #e0d8c3;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .rsvp-section h3 {
+            font-size: 15px;
+            letter-spacing: 2px;
+            color: #4a4237;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
         .divider-ornament {
-            margin-top: 15px;
+            margin: 12px 0 20px 0;
             color: #a39e6a;
             font-size: 12px;
             letter-spacing: 4px;
+        }
+
+        /* Pilihan Hadir / Tidak Hadir (Icon Style) */
+        .status-options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .status-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            background: none;
+            border: none;
+            outline: none;
+            color: #777;
+            transition: transform 0.2s ease;
+        }
+
+        .status-btn i {
+            font-size: 36px;
+            margin-bottom: 6px;
+            color: #bbb;
+            transition: color 0.2s ease;
+        }
+
+        .status-btn.selected i.fa-circle-check {
+            color: #27ae60;
+        }
+
+        .status-btn.selected i.fa-circle-xmark {
+            color: #e74c3c;
+        }
+
+        .status-btn.selected span {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .status-btn span {
+            font-size: 13px;
+        }
+
+        /* Input Form Style */
+        .form-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 13px;
+            background-color: #fafafa;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            border-color: #a39e6a;
+            background-color: #fff;
+        }
+
+        .submit-rsvp-btn {
+            background-color: #a39e6a;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+        }
+
+        .submit-rsvp-btn:hover {
+            background-color: #8c8758;
+        }
+
+        .submit-rsvp-btn:active {
+            opacity: 0.8;
         }
 
         /* Sampul / Pintu Gatefold Overlay */
@@ -335,7 +451,54 @@
                         <span class="count-label">Tidak Hadir</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- Bahagian RSVP & UCAPAN (Direct In-Page Form) -->
+            <div class="rsvp-section" id="rsvpDirectSection">
                 <div class="divider-ornament">❖ ─── ❖ ─── ❖</div>
+                <h3>RSVP & UCAPAN</h3>
+
+                <form id="rsvpForm" onsubmit="submitRSVP(event)">
+                    <!-- Pilihan Kehadiran -->
+                    <div class="status-options">
+                        <button type="button" class="status-btn selected" id="btnHadir" onclick="selectStatus('Hadir')">
+                            <i class="fa-regular fa-circle-check"></i>
+                            <span>Hadir</span>
+                        </button>
+                        <button type="button" class="status-btn" id="btnTakHadir" onclick="selectStatus('Tidak Hadir')">
+                            <i class="fa-regular fa-circle-xmark"></i>
+                            <span>Tidak Hadir</span>
+                        </button>
+                    </div>
+
+                    <input type="hidden" id="inputStatus" name="status" value="Hadir">
+
+                    <!-- Input Nama -->
+                    <div class="form-group">
+                        <label for="inputNama">Nama Penuh</label>
+                        <input type="text" id="inputNama" class="form-input" placeholder="Masukkan nama anda" required>
+                    </div>
+
+                    <!-- Input Pax (Sembunyi secara automatik jika memilih 'Tidak Hadir') -->
+                    <div class="form-group" id="paxGroup">
+                        <label for="inputPax">Jumlah Kehadiran (Pax)</label>
+                        <select id="inputPax" class="form-input">
+                            <option value="1">1 Orang</option>
+                            <option value="2">2 Orang</option>
+                            <option value="3">3 Orang</option>
+                            <option value="4">4 Orang</option>
+                            <option value="5">5 Orang</option>
+                        </select>
+                    </div>
+
+                    <!-- Input Ucapan -->
+                    <div class="form-group">
+                        <label for="inputUcapan">Ucapan & Doa</label>
+                        <textarea id="inputUcapan" class="form-input" rows="3" placeholder="Tuliskan ucapan anda..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-rsvp-btn" id="btnSubmit">Hantar Pengesahan</button>
+                </form>
             </div>
         </div>
 
@@ -365,11 +528,11 @@
                 <span>Hubungi</span>
             </button>
 
-            <!-- 5. RSVP -->
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScZcyOiKITVi-rTJKfrtFtjYJD1AuRM7MhmjrFsPrpKQyhUkw/viewform" target="_blank" class="footer-item">
+            <!-- 5. RSVP (Scroll Direct ke Form dalam Kad) -->
+            <button class="footer-item" onclick="scrollToRSVP()">
                 <i class="fa-regular fa-envelope"></i>
                 <span>RSVP</span>
-            </a>
+            </button>
         </div>
 
         <!-- Modal Popup: Lokasi (Waze / Google Maps) -->
@@ -464,9 +627,32 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        /* Mengambil Data Kehadiran Live dari Apps Script */
+        function scrollToRSVP() {
+            document.getElementById('rsvpDirectSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* Logic Pemilihan Status Hadir / Tidak Hadir */
+        function selectStatus(status) {
+            document.getElementById('inputStatus').value = status;
+            const btnHadir = document.getElementById('btnHadir');
+            const btnTakHadir = document.getElementById('btnTakHadir');
+            const paxGroup = document.getElementById('paxGroup');
+
+            if (status === 'Hadir') {
+                btnHadir.classList.add('selected');
+                btnTakHadir.classList.remove('selected');
+                paxGroup.style.display = 'block';
+            } else {
+                btnTakHadir.classList.add('selected');
+                btnHadir.classList.remove('selected');
+                paxGroup.style.display = 'none';
+            }
+        }
+
+        /* Masukkan URL Web App Google Apps Script korang di bawah ini */
         const API_URL = "URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI";
 
+        /* Mengambil Data Kehadiran Live dari Apps Script */
         function fetchRSVPCount() {
             if (API_URL === "URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI") return;
 
@@ -477,6 +663,49 @@
                     document.getElementById('countTakHadir').innerText = data.takHadir;
                 })
                 .catch(err => console.error("Error fetching RSVP:", err));
+        }
+
+        /* Menghantar Data Form RSVP terus ke Google Sheets & Update Counter secara Live */
+        function submitRSVP(e) {
+            e.preventDefault();
+
+            if (API_URL === "URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI") {
+                alert("Sila masukkan URL Google Apps Script yang sah pada API_URL terlebih dahulu!");
+                return;
+            }
+
+            const submitBtn = document.getElementById('btnSubmit');
+            submitBtn.innerText = "Hantar...";
+            submitBtn.disabled = true;
+
+            const payload = {
+                status: document.getElementById('inputStatus').value,
+                nama: document.getElementById('inputNama').value,
+                pax: document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0,
+                ucapan: document.getElementById('inputUcapan').value
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                alert("Terima kasih! Pengesahan kehadiran anda telah berjaya dihantar.");
+                document.getElementById('rsvpForm').reset();
+                selectStatus('Hadir');
+                submitBtn.innerText = "Hantar Pengesahan";
+                submitBtn.disabled = false;
+                
+                // Ambil data terbaru selepas 1.5 saat untuk update nombor secara live
+                setTimeout(fetchRSVPCount, 1500); 
+            })
+            .catch(err => {
+                alert("Maaf, berlaku ralat. Sila cuba lagi.");
+                submitBtn.innerText = "Hantar Pengesahan";
+                submitBtn.disabled = false;
+            });
         }
 
         window.addEventListener('DOMContentLoaded', fetchRSVPCount);
