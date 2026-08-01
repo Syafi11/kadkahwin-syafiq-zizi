@@ -57,6 +57,57 @@
             display: block;
         }
 
+        /* Seksyen Kaunter Kehadiran Live */
+        .rsvp-counter-container {
+            background: #ffffff;
+            margin: 20px 15px;
+            padding: 20px 15px;
+            border-radius: 12px;
+            border: 1px solid #e0d8c3;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .rsvp-counter-container h3 {
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #6b5e4a;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .counter-box {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .count-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #7a7049;
+            font-family: 'Georgia', serif;
+        }
+
+        .count-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .divider-ornament {
+            margin-top: 15px;
+            color: #a39e6a;
+            font-size: 12px;
+            letter-spacing: 4px;
+        }
+
         /* Sampul / Pintu Gatefold Overlay */
         .envelope-overlay {
             position: absolute;
@@ -265,11 +316,27 @@
             </div>
         </div>
 
-        <!-- Isi Kad Di Dalam (Gambar Sahaja) -->
+        <!-- Isi Kad Di Dalam -->
         <div class="card-inside" id="cardInside">
             <img src="2.png" alt="Muka Surat 2">
             <img src="3.png" alt="Muka Surat 3">
             <img src="4.png" alt="Muka Surat 4">
+
+            <!-- Bahagian Kaunter Kehadiran Live -->
+            <div class="rsvp-counter-container">
+                <h3>KEHADIRAN</h3>
+                <div class="counter-box">
+                    <div class="stat">
+                        <span id="countHadir" class="count-number">0</span>
+                        <span class="count-label">Hadir</span>
+                    </div>
+                    <div class="stat">
+                        <span id="countTakHadir" class="count-number">0</span>
+                        <span class="count-label">Tidak Hadir</span>
+                    </div>
+                </div>
+                <div class="divider-ornament">❖ ─── ❖ ─── ❖</div>
+            </div>
         </div>
 
         <!-- FOOTER NAVIGASI BAWAH -->
@@ -299,7 +366,7 @@
             </button>
 
             <!-- 5. RSVP -->
-            <a href="https://forms.gle/BazWEPJnGTUs2Att9" target="_blank" class="footer-item">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScZcyOiKITVi-rTJKfrtFtjYJD1AuRM7MhmjrFsPrpKQyhUkw/viewform" target="_blank" class="footer-item">
                 <i class="fa-regular fa-envelope"></i>
                 <span>RSVP</span>
             </a>
@@ -324,7 +391,7 @@
         <!-- Modal Popup: Hubungi (Direct Phone Call) -->
         <div class="modal" id="contactModal">
             <div class="modal-content">
-                <h4>Hubungi </h4>
+                <h4>Hubungi Penganjur</h4>
                 <div class="modal-btns">
                     <a href="tel:0123267454" class="btn btn-phone">
                         <i class="fa-solid fa-phone"></i> Intan (012-326 7454)
@@ -396,6 +463,23 @@
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
         }
+
+        /* Mengambil Data Kehadiran Live dari Apps Script */
+        const API_URL = "URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI";
+
+        function fetchRSVPCount() {
+            if (API_URL === "URL_WEB_APP_GOOGLE_SCRIPT_KAU_DI_SINI") return;
+
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('countHadir').innerText = data.hadir;
+                    document.getElementById('countTakHadir').innerText = data.takHadir;
+                })
+                .catch(err => console.error("Error fetching RSVP:", err));
+        }
+
+        window.addEventListener('DOMContentLoaded', fetchRSVPCount);
     </script>
 </body>
 </html>
