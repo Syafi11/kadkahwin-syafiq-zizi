@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Walimatulurus Syafiq & Zizi</title>
 
-    <!-- FontAwesome untuk Ikon Footer & Modal -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -40,7 +39,19 @@
             flex-direction: column;
         }
 
-        /* Overlay Animasi Rama-Rama */
+        /* Isi Dalam Kad */
+        .card-inside {
+            position: relative; /* KOD BARU: Untuk jadikan panduan kedudukan video rama-rama */
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            text-align: center;
+            background-color: #faf8f5;
+            padding-bottom: 70px;
+            scroll-behavior: smooth;
+        }
+
+        /* Overlay Animasi Rama-Rama (KINI DALAM CARD-INSIDE) */
         .butterfly-overlay {
             position: absolute;
             top: 0;
@@ -49,25 +60,14 @@
             height: 100%;
             object-fit: cover;
             z-index: 4;
-            pointer-events: none;
-            mix-blend-mode: screen;
+            pointer-events: none; /* Supaya tetamu tetap boleh scroll & tekan butang */
+            mix-blend-mode: screen; /* Hilangkan latar belakang hitam video */
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 0.5s ease;
         }
 
         .butterfly-overlay.active {
             opacity: 0.85;
-        }
-
-        /* Isi Dalam Kad */
-        .card-inside {
-            width: 100%;
-            flex: 1;
-            overflow-y: auto;
-            text-align: center;
-            background-color: #faf8f5;
-            padding-bottom: 70px;
-            scroll-behavior: smooth;
         }
 
         .card-inside img, .card-inside video {
@@ -372,7 +372,6 @@
 <body>
 
     <div class="card-container">
-        <!-- Overlay Pintu & Wax Seal -->
         <div class="envelope-overlay" id="envelope">
             <div class="door-left"></div>
             <div class="door-right"></div>
@@ -381,20 +380,17 @@
             </div>
         </div>
 
-        <!-- Video Animasi Rama-Rama (Overlay) -->
-        <video loop muted playsinline class="butterfly-overlay" id="butterflyVideo">
-            <source src="butterfly.mp4" type="video/mp4">
-        </video>
-
-        <!-- Isi Kad Di Dalam -->
         <div class="card-inside" id="cardInside">
+            <video muted playsinline class="butterfly-overlay" id="butterflyVideo">
+                <source src="butterfly.mp4" type="video/mp4">
+            </video>
+
             <video autoplay loop muted playsinline>
                 <source src="2.mp4" type="video/mp4">
             </video>
             <img src="3.png" alt="Muka Surat 3">
             <img src="4.png" alt="Muka Surat 4">
 
-            <!-- Bahagian Kaunter Kehadiran Live -->
             <div class="rsvp-counter-container">
                 <h3>KEHADIRAN</h3>
                 <div class="counter-box">
@@ -410,40 +406,33 @@
             </div>
         </div>
 
-        <!-- FOOTER NAVIGASI BAWAH -->
         <div class="footer-nav">
-            <!-- 1. Muzik -->
             <button class="footer-item" onclick="toggleAudio()">
                 <i class="fa-solid fa-circle-play" id="musicIcon"></i>
                 <span>Muzik</span>
             </button>
 
-            <!-- 2. Kalendar -->
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+Syafiq+%26+Zizi&location=Villa+Adina,+Titiwangsa,+Kuala+Lumpur" target="_blank" class="footer-item">
                 <i class="fa-regular fa-calendar-days"></i>
                 <span>Kalendar</span>
             </a>
 
-            <!-- 3. Lokasi -->
             <button class="footer-item" onclick="openModal('locationModal')">
                 <i class="fa-solid fa-location-dot"></i>
                 <span>Lokasi</span>
             </button>
 
-            <!-- 4. Hubungi -->
             <button class="footer-item" onclick="openModal('contactModal')">
                 <i class="fa-solid fa-phone"></i>
                 <span>Hubungi</span>
             </button>
 
-            <!-- 5. RSVP -->
             <button class="footer-item" onclick="openModal('rsvpModal')">
                 <i class="fa-regular fa-envelope"></i>
                 <span>RSVP</span>
             </button>
         </div>
 
-        <!-- MODAL POPUP: RSVP & UCAPAN -->
         <div class="modal" id="rsvpModal">
             <div class="modal-content">
                 <div class="rsvp-section-modal">
@@ -452,7 +441,6 @@
 
                     <form id="rsvpForm" onsubmit="submitRSVP(event)">
                         
-                        <!-- Pilihan Kehadiran -->
                         <div class="form-group">
                             <label for="inputStatus">Pengesahan Kehadiran</label>
                             <select id="inputStatus" class="form-input" onchange="togglePaxField(this.value)">
@@ -461,7 +449,6 @@
                             </select>
                         </div>
 
-                        <!-- Input Pax -->
                         <div class="form-group" id="paxGroup">
                             <label for="inputPax">Jumlah Kehadiran (Pax)</label>
                             <select id="inputPax" class="form-input">
@@ -473,7 +460,6 @@
                             </select>
                         </div>
 
-                        <!-- Input Ucapan -->
                         <div class="form-group">
                             <label for="inputUcapan">Ucapan & Doa</label>
                             <textarea id="inputUcapan" class="form-input" rows="3" placeholder="Tuliskan ucapan anda..."></textarea>
@@ -486,7 +472,6 @@
             </div>
         </div>
 
-        <!-- Modal Notifikasi Berjaya Hantar -->
         <div class="modal" id="successModal">
             <div class="modal-content" style="text-align: center; padding: 30px 20px;">
                 <i class="fa-solid fa-circle-check" style="font-size: 50px; color: #a39e6a; margin-bottom: 12px;"></i>
@@ -496,7 +481,6 @@
             </div>
         </div>
 
-        <!-- Modal Popup: Lokasi -->
         <div class="modal" id="locationModal">
             <div class="modal-content">
                 <h4>Pilih Navigasi Lokasi</h4>
@@ -512,7 +496,6 @@
             </div>
         </div>
 
-        <!-- Modal Popup: Hubungi -->
         <div class="modal" id="contactModal">
             <div class="modal-content">
                 <h4>Hubungi </h4>
@@ -530,7 +513,6 @@
 
     </div>
 
-    <!-- Fail Lagu Audio -->
     <audio id="bgMusic" loop preload="auto">
         <source src="lagu.mp3" type="audio/mpeg">
     </audio>
@@ -551,15 +533,19 @@
                 }, 1200);
             }
 
-            // Mainkan video rama-rama
+            // KOD BARU: Mainkan video rama-rama sekali sahaja & sembunyikan semula selepas tamat
             const butterfly = document.getElementById('butterflyVideo');
             if (butterfly) {
                 butterfly.classList.add('active');
                 butterfly.currentTime = 0;
-                butterfly.play().catch(e => console.log("Video autoplay blocked or file missing:", e));
+                butterfly.play().catch(e => console.log("Video playback error:", e));
+
+                // Sembunyikan paparan video rama-rama sebaik sahaja ia selesai dimainkan (sekali main)
+                butterfly.onended = function() {
+                    butterfly.classList.remove('active');
+                };
             }
 
-            // Mainkan audio latar
             playAudioDirect();
         }
 
