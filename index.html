@@ -405,91 +405,178 @@
             </div>
         </div>
 
-        <!-- Footer Navigasi Bawah -->
+        <!-- FOOTER NAVIGASI BAWAH -->
         <div class="footer-nav">
-            <button class="footer-item" onclick="openModal('rsvpModal')">
-                <i class="fa-solid fa-envelope-open-text"></i>
-                <span>RSVP</span>
+            <!-- 1. Muzik -->
+            <button class="footer-item" onclick="toggleAudio()">
+                <i class="fa-solid fa-circle-play" id="musicIcon"></i>
+                <span>Muzik</span>
             </button>
+
+            <!-- 2. Kalendar -->
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+Syafiq+%26+Zizi&location=Villa+Adina,+Titiwangsa,+Kuala+Lumpur" target="_blank" class="footer-item">
+                <i class="fa-regular fa-calendar-days"></i>
+                <span>Kalendar</span>
+            </a>
+
+            <!-- 3. Lokasi -->
             <button class="footer-item" onclick="openModal('locationModal')">
                 <i class="fa-solid fa-location-dot"></i>
-                <span>LOKASI</span>
+                <span>Lokasi</span>
             </button>
+
+            <!-- 4. Hubungi -->
             <button class="footer-item" onclick="openModal('contactModal')">
                 <i class="fa-solid fa-phone"></i>
-                <span>HUBUNGI</span>
+                <span>Hubungi</span>
+            </button>
+
+            <!-- 5. RSVP -->
+            <button class="footer-item" onclick="openModal('rsvpModal')">
+                <i class="fa-regular fa-envelope"></i>
+                <span>RSVP</span>
             </button>
         </div>
 
-        <!-- Modal RSVP -->
+        <!-- MODAL POPUP: RSVP & UCAPAN -->
         <div class="modal" id="rsvpModal">
             <div class="modal-content">
                 <div class="rsvp-section-modal">
-                    <h3>PENGESAHAN KEHADIRAN</h3>
-                    <div class="divider-ornament">❖ ❖ ❖</div>
+                    <div class="divider-ornament">❖ ─── ❖ ─── ❖</div>
+                    <h3>RSVP & UCAPAN</h3>
+
                     <form id="rsvpForm" onsubmit="submitRSVP(event)">
+                        
+                        <!-- Pilihan Kehadiran -->
                         <div class="form-group">
-                            <label for="nama">Nama</label>
-                            <input type="text" id="nama" class="form-input" placeholder="Masukkan nama anda" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Status Kehadiran</label>
-                            <select id="status" class="form-input" required>
+                            <label for="inputStatus">Pengesahan Kehadiran</label>
+                            <select id="inputStatus" class="form-input" onchange="togglePaxField(this.value)">
                                 <option value="Hadir">Hadir</option>
                                 <option value="Tidak Hadir">Tidak Hadir</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="pax">Jumlah Tetamu (Pax)</label>
-                            <input type="number" id="pax" class="form-input" min="1" max="10" value="1" required>
+
+                        <!-- Input Pax -->
+                        <div class="form-group" id="paxGroup">
+                            <label for="inputPax">Jumlah Kehadiran (Pax)</label>
+                            <select id="inputPax" class="form-input">
+                                <option value="1">1 Orang</option>
+                                <option value="2">2 Orang</option>
+                                <option value="3">3 Orang</option>
+                                <option value="4">4 Orang</option>
+                                <option value="5">5 Orang</option>
+                            </select>
                         </div>
-                        <button type="submit" class="submit-rsvp-btn">HANTAR RSVP</button>
+
+                        <!-- Input Ucapan -->
+                        <div class="form-group">
+                            <label for="inputUcapan">Ucapan & Doa</label>
+                            <textarea id="inputUcapan" class="form-input" rows="3" placeholder="Tuliskan ucapan anda..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-rsvp-btn" id="btnSubmit">Hantar Pengesahan</button>
                     </form>
                 </div>
-                <button class="close-btn" onclick="closeModal('rsvpModal')">Tutup</button>
+                <button class="close-btn" onclick="closeModal('rsvpModal')">Batal / Tutup</button>
             </div>
         </div>
 
-        <!-- Modal Lokasi -->
+        <!-- Modal Notifikasi Berjaya Hantar -->
+        <div class="modal" id="successModal">
+            <div class="modal-content" style="text-align: center; padding: 30px 20px;">
+                <i class="fa-solid fa-circle-check" style="font-size: 50px; color: #a39e6a; margin-bottom: 12px;"></i>
+                <h4 style="margin-bottom: 8px; color: #4a4237; font-size: 18px;">Terima Kasih!</h4>
+                <p style="font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.4;">Pengesahan RSVP anda telah berjaya dihantar.</p>
+                <button class="submit-rsvp-btn" onclick="closeModal('successModal')">Tutup</button>
+            </div>
+        </div>
+
+        <!-- Modal Popup: Lokasi -->
         <div class="modal" id="locationModal">
             <div class="modal-content">
-                <h4>LOKASI MAJLIS</h4>
+                <h4>Pilih Navigasi Lokasi</h4>
                 <div class="modal-btns">
-                    <a href="https://waze.com/ul" target="_blank" class="btn btn-waze">
+                    <a href="https://www.waze.com/en-GB/live-map/directions?to=ll.3.18198%2C101.703851" target="_blank" class="btn btn-waze">
                         <i class="fa-brands fa-waze"></i> Waze
                     </a>
-                    <a href="https://maps.google.com" target="_blank" class="btn btn-gmaps">
-                        <i class="fa-solid fa-map-location-dot"></i> Google Maps
+                    <a href="https://www.google.com/maps/dir//Villa+Adina,+1,+Lorong+Titiwangsa+2,+Titiwangsa,+53200+Kuala+Lumpur,+Federal+Territory+of+Kuala+Lumpur/@6.4409343,100.3385632,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x31cc491141912923:0x79655938acd2cb20!2m2!1d101.7036893!2d3.1820574?hl=en-GB&entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-gmaps">
+                        <i class="fa-solid fa-location-dot"></i> Google Maps
                     </a>
                 </div>
                 <button class="close-btn" onclick="closeModal('locationModal')">Tutup</button>
             </div>
         </div>
 
-        <!-- Modal Hubungi -->
+        <!-- Modal Popup: Hubungi -->
         <div class="modal" id="contactModal">
             <div class="modal-content">
-                <h4>HUBUNGI KAMI</h4>
+                <h4>Hubungi </h4>
                 <div class="modal-btns">
-                    <a href="https://wa.me/60123456789" target="_blank" class="btn btn-phone">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp Syafiq
+                    <a href="tel:0123267454" class="btn btn-phone">
+                        <i class="fa-solid fa-phone"></i> Intan (012-326 7454)
                     </a>
-                    <a href="https://wa.me/60198765432" target="_blank" class="btn btn-phone">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp Zizi
+                    <a href="tel:0123347814" class="btn btn-phone">
+                        <i class="fa-solid fa-phone"></i> Sabree (012-334 7814)
                     </a>
                 </div>
                 <button class="close-btn" onclick="closeModal('contactModal')">Tutup</button>
             </div>
         </div>
+
     </div>
 
+    <!-- Fail Lagu Audio -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
-        // Buka Pintu Sampul Kad
+        const audio = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+
+        /* URL Web App Google Apps Script Anda */
+        const API_URL = "https://script.google.com/macros/s/AKfycbzEeXtWO-haYn4rxP9XfxTKzeDF6IVCXdqYuWXtszu8cXPDFw0a3Oqw0aR1mHte63FlTw/exec";
+
         function openCard() {
-            document.getElementById('envelope').classList.add('open');
+            const envelope = document.getElementById('envelope');
+            envelope.classList.add('open');
+            
+            setTimeout(() => {
+                envelope.style.display = 'none';
+            }, 1200);
+
+            playAudioDirect();
         }
 
-        // Buka & Tutup Modal Pop-up
+        function playAudioDirect() {
+            audio.currentTime = 0;
+            audio.volume = 1.0;
+            
+            let playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    musicIcon.className = "fa-solid fa-circle-pause";
+                }).catch(error => {
+                    console.log("Error mainkan audio:", error);
+                    audio.play();
+                    musicIcon.className = "fa-solid fa-circle-pause";
+                });
+            }
+        }
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    musicIcon.className = "fa-solid fa-circle-pause";
+                }).catch(e => console.log(e));
+            } else {
+                audio.pause();
+                musicIcon.className = "fa-solid fa-circle-play";
+            }
+        }
+
+        /* Kawalan Popup Modal */
         function openModal(id) {
             document.getElementById(id).style.display = 'flex';
         }
@@ -498,27 +585,75 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        // Pengurusan Borang RSVP (Demo simulasi tambah bilangan)
-        let totalHadir = 0;
-        let totalTakHadir = 0;
+        /* Tunjukkan / Sembunyikan Pax */
+        function togglePaxField(status) {
+            const paxGroup = document.getElementById('paxGroup');
+            if (status === 'Hadir') {
+                paxGroup.style.display = 'block';
+            } else {
+                paxGroup.style.display = 'none';
+            }
+        }
 
+        /* Mengambil Data Kehadiran Live dari Apps Script */
+        function fetchRSVPCount() {
+            if (!API_URL) return;
+
+            fetch(API_URL + "?t=" + new Date().getTime(), {
+                method: "GET",
+                redirect: "follow"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.hadir !== undefined) {
+                    document.getElementById('countHadir').innerText = data.hadir;
+                    document.getElementById('countTakHadir').innerText = data.takHadir;
+                }
+            })
+            .catch(err => console.error("Error fetching RSVP:", err));
+        }
+
+        /* Menghantar Data Form RSVP ke Google Sheets */
         function submitRSVP(e) {
             e.preventDefault();
-            const status = document.getElementById('status').value;
-            const pax = parseInt(document.getElementById('pax').value) || 1;
 
-            if (status === 'Hadir') {
-                totalHadir += pax;
-                document.getElementById('countHadir').innerText = totalHadir;
-            } else {
-                totalTakHadir += 1;
-                document.getElementById('countTakHadir').innerText = totalTakHadir;
-            }
+            const submitBtn = document.getElementById('btnSubmit');
+            submitBtn.innerText = "Hantar...";
+            submitBtn.disabled = true;
 
-            alert('Terima kasih atas maklum balas RSVP anda!');
-            closeModal('rsvpModal');
-            document.getElementById('rsvpForm').reset();
+            const payload = {
+                status: document.getElementById('inputStatus').value,
+                pax: document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0,
+                ucapan: document.getElementById('inputUcapan').value
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                document.getElementById('rsvpForm').reset();
+                togglePaxField('Hadir');
+                submitBtn.innerText = "Hantar Pengesahan";
+                submitBtn.disabled = false;
+                
+                closeModal('rsvpModal');
+                openModal('successModal');
+                
+                // Tarik semula nombor terkini selepas 2 saat
+                setTimeout(fetchRSVPCount, 2000); 
+            })
+            .catch(err => {
+                alert("Maaf, berlaku ralat. Sila cuba lagi.");
+                submitBtn.innerText = "Hantar Pengesahan";
+                submitBtn.disabled = false;
+            });
         }
+
+        // Jalankan fungsi tarik data kehadiran sebaik sahaja web dimuatkan
+        window.addEventListener('DOMContentLoaded', fetchRSVPCount);
     </script>
 </body>
 </html>
