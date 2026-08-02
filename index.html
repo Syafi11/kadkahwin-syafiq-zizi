@@ -134,7 +134,7 @@
             font-weight: 600;
         }
 
-        .form-input, select.form-input {
+        .form-input {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #ccc;
@@ -352,6 +352,11 @@
 </head>
 <body>
 
+    <!-- Audio Muzik Latar Belakang -->
+    <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="card-container">
         <!-- Overlay Pintu & Wax Seal -->
         <div class="envelope-overlay" id="envelope">
@@ -361,11 +366,6 @@
                 <span>BUKA KAD</span>
             </div>
         </div>
-
-        <!-- Audio Muzik Latar Belakang -->
-        <audio id="bgMusic" loop>
-            <source src="music.mp3" type="audio/mpeg">
-        </audio>
 
         <!-- Isi Kad Di Dalam -->
         <div class="card-inside" id="cardInside">
@@ -409,25 +409,25 @@
                 <span>Lokasi</span>
             </button>
 
-            <!-- 4. RSVP -->
-            <button class="footer-item" onclick="openModal('modalRSVP')">
-                <i class="fa-regular fa-envelope"></i>
-                <span>RSVP</span>
-            </button>
-
-            <!-- 5. Hubungi -->
+            <!-- 4. Hubungi -->
             <button class="footer-item" onclick="openModal('modalContact')">
                 <i class="fa-solid fa-phone"></i>
                 <span>Hubungi</span>
             </button>
+
+            <!-- 5. RSVP -->
+            <button class="footer-item" onclick="openModal('modalRSVP')">
+                <i class="fa-solid fa-envelope-open-text"></i>
+                <span>RSVP</span>
+            </button>
         </div>
 
-        <!-- MODAL POP-UP: LOKASI -->
+        <!-- MODAL LOKASI -->
         <div class="modal" id="modalLocation">
             <div class="modal-content">
-                <h4>Pilih Aplikasi Lokasi</h4>
+                <h4>PILIH APLIKASI PETA</h4>
                 <div class="modal-btns">
-                    <a href="https://waze.com/ul?q=Villa+Adina+Titiwangsa" target="_blank" class="btn btn-waze">
+                    <a href="https://waze.com/ul?q=Villa%20Adina%20Titiwangsa" target="_blank" class="btn btn-waze">
                         <i class="fa-brands fa-waze"></i> Waze
                     </a>
                     <a href="https://maps.google.com/?q=Villa+Adina+Titiwangsa" target="_blank" class="btn btn-gmaps">
@@ -438,39 +438,10 @@
             </div>
         </div>
 
-        <!-- MODAL POP-UP: RSVP -->
-        <div class="modal" id="modalRSVP">
-            <div class="modal-content">
-                <div class="rsvp-section-modal">
-                    <h3>RSVP KEHADIRAN</h3>
-                    <p class="divider-ornament">❖ ❖ ❖</p>
-                    <form id="rsvpForm" onsubmit="submitRSVP(event)">
-                        <div class="form-group">
-                            <label for="nama">Nama Anda:</label>
-                            <input type="text" id="nama" class="form-input" placeholder="Masukkan nama..." required>
-                        </div>
-                        <div class="form-group">
-                            <label for="kehadiran">Kehadiran:</label>
-                            <select id="kehadiran" class="form-input" required>
-                                <option value="Hadir">Hadir</option>
-                                <option value="Tidak Hadir">Tidak Hadir</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="pax">Jumlah Pax:</label>
-                            <input type="number" id="pax" class="form-input" min="1" max="10" value="1" required>
-                        </div>
-                        <button type="submit" class="submit-rsvp-btn">Hantar RSVP</button>
-                    </form>
-                </div>
-                <button class="close-btn" onclick="closeModal('modalRSVP')">Tutup</button>
-            </div>
-        </div>
-
-        <!-- MODAL POP-UP: HUBUNGI -->
+        <!-- MODAL HUBUNGI -->
         <div class="modal" id="modalContact">
             <div class="modal-content">
-                <h4>Hubungi Kami</h4>
+                <h4>HUBUNGI KAMI</h4>
                 <div class="modal-btns">
                     <a href="https://wa.me/60123456789" target="_blank" class="btn btn-phone">
                         <i class="fa-brands fa-whatsapp"></i> Bapa Pengantin
@@ -482,69 +453,112 @@
                 <button class="close-btn" onclick="closeModal('modalContact')">Tutup</button>
             </div>
         </div>
+
+        <!-- MODAL RSVP -->
+        <div class="modal" id="modalRSVP">
+            <div class="modal-content">
+                <div class="rsvp-section-modal">
+                    <h3>PENGESAHAN KEHADIRAN</h3>
+                    <div class="divider-ornament">✦ ✦ ✦</div>
+                    <form id="rsvpForm">
+                        <div class="form-group">
+                            <label for="nama">Nama</label>
+                            <input type="text" id="nama" name="nama" class="form-input" required placeholder="Nama Penuh">
+                        </div>
+                        <div class="form-group">
+                            <label for="kehadiran">Kehadiran</label>
+                            <select id="kehadiran" name="kehadiran" class="form-input" required onchange="togglePaxInput(this.value)">
+                                <option value="Hadir">Hadir</option>
+                                <option value="Tidak Hadir">Tidak Hadir</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="paxGroup">
+                            <label for="pax">Jumlah Pax</label>
+                            <input type="number" id="pax" name="pax" class="form-input" value="1" min="1" max="10">
+                        </div>
+                        <button type="submit" class="submit-rsvp-btn">HANTAR</button>
+                    </form>
+                </div>
+                <button class="close-btn" onclick="closeModal('modalRSVP')">Tutup</button>
+            </div>
+        </div>
+
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
         const audio = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
-        let isPlaying = false;
 
+        // Buka Kad & Mainkan Audio
         function openCard() {
             document.getElementById('envelope').classList.add('open');
             playAudio();
         }
 
+        // Kawalan Audio (Play/Pause)
         function playAudio() {
             audio.play().then(() => {
-                isPlaying = true;
                 musicIcon.classList.remove('fa-circle-play');
                 musicIcon.classList.add('fa-circle-pause');
-            }).catch(error => {
-                console.log("Autoplay dihalang oleh pelayar:", error);
-            });
+            }).catch(err => console.log("Autoplay dihalang browser:", err));
         }
 
         function toggleAudio() {
-            if (isPlaying) {
+            if (audio.paused) {
+                audio.play();
+                musicIcon.classList.remove('fa-circle-play');
+                musicIcon.classList.add('fa-circle-pause');
+            } else {
                 audio.pause();
-                isPlaying = false;
                 musicIcon.classList.remove('fa-circle-pause');
                 musicIcon.classList.add('fa-circle-play');
-            } else {
-                playAudio();
             }
         }
 
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
         }
 
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
-        // Simpanan data RSVP sementara menggunakan Javascript
-        let totalHadir = 0;
-        let totalTakHadir = 0;
+        // Papar/Sembunyi input Pax mengikut pilihan Kehadiran
+        function togglePaxInput(val) {
+            const paxGroup = document.getElementById('paxGroup');
+            if (val === 'Tidak Hadir') {
+                paxGroup.style.display = 'none';
+            } else {
+                paxGroup.style.display = 'block';
+            }
+        }
 
-        function submitRSVP(e) {
+        // Logic Simulasi Hantar Form RSVP & Kemaskini Kaunter
+        let countHadirVal = 0;
+        let countTakHadirVal = 0;
+
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const status = document.getElementById('kehadiran').value;
-            const pax = parseInt(document.getElementById('pax').value) || 1;
+            
+            const nama = document.getElementById('nama').value;
+            const kehadiran = document.getElementById('kehadiran').value;
+            const pax = parseInt(document.getElementById('pax').value) || 0;
 
-            if (status === 'Hadir') {
-                totalHadir += pax;
-                document.getElementById('countHadir').innerText = totalHadir;
+            if (kehadiran === 'Hadir') {
+                countHadirVal += pax;
+                document.getElementById('countHadir').innerText = countHadirVal;
             } else {
-                totalTakHadir += 1;
-                document.getElementById('countTakHadir').innerText = totalTakHadir;
+                countTakHadirVal += 1;
+                document.getElementById('countTakHadir').innerText = countTakHadirVal;
             }
 
-            alert('Terima kasih atas maklum balas RSVP anda!');
-            document.getElementById('rsvpForm').reset();
+            alert(`Terima kasih ${nama}! Pengesahan anda telah diterima.`);
+            this.reset();
+            togglePaxInput('Hadir');
             closeModal('modalRSVP');
-        }
+        });
     </script>
 </body>
 </html>
