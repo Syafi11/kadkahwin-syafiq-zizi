@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Walimatulurus Syafiq & Zizi</title>
 
+    <!-- FontAwesome untuk Ikon Footer & Modal -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -47,14 +48,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: 4; /* Berada di atas kandungan kad, di bawah footer (5) dan modal (30) */
-            pointer-events: none; /* PENTING: Supaya pengguna tetap boleh scroll dan tekan butang */
-            mix-blend-mode: screen; /* Membuang latar belakang hitam video secara automatik */
-            opacity: 0; /* KOD BARU: Disembunyikan terlebih dahulu */
-            transition: opacity 1s ease; /* KOD BARU: Efek 'fade in' apabila kad dibuka */
+            z-index: 4;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
-        /* KOD BARU: Rama-rama dipaparkan apabila dibuka */
         .butterfly-overlay.active {
             opacity: 0.85;
         }
@@ -372,6 +372,7 @@
 <body>
 
     <div class="card-container">
+        <!-- Overlay Pintu & Wax Seal -->
         <div class="envelope-overlay" id="envelope">
             <div class="door-left"></div>
             <div class="door-right"></div>
@@ -380,10 +381,12 @@
             </div>
         </div>
 
+        <!-- Video Animasi Rama-Rama (Overlay) -->
         <video loop muted playsinline class="butterfly-overlay" id="butterflyVideo">
             <source src="butterfly.mp4" type="video/mp4">
         </video>
 
+        <!-- Isi Kad Di Dalam -->
         <div class="card-inside" id="cardInside">
             <video autoplay loop muted playsinline>
                 <source src="2.mp4" type="video/mp4">
@@ -391,6 +394,7 @@
             <img src="3.png" alt="Muka Surat 3">
             <img src="4.png" alt="Muka Surat 4">
 
+            <!-- Bahagian Kaunter Kehadiran Live -->
             <div class="rsvp-counter-container">
                 <h3>KEHADIRAN</h3>
                 <div class="counter-box">
@@ -406,33 +410,40 @@
             </div>
         </div>
 
+        <!-- FOOTER NAVIGASI BAWAH -->
         <div class="footer-nav">
+            <!-- 1. Muzik -->
             <button class="footer-item" onclick="toggleAudio()">
                 <i class="fa-solid fa-circle-play" id="musicIcon"></i>
                 <span>Muzik</span>
             </button>
 
+            <!-- 2. Kalendar -->
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+Syafiq+%26+Zizi&location=Villa+Adina,+Titiwangsa,+Kuala+Lumpur" target="_blank" class="footer-item">
                 <i class="fa-regular fa-calendar-days"></i>
                 <span>Kalendar</span>
             </a>
 
+            <!-- 3. Lokasi -->
             <button class="footer-item" onclick="openModal('locationModal')">
                 <i class="fa-solid fa-location-dot"></i>
                 <span>Lokasi</span>
             </button>
 
+            <!-- 4. Hubungi -->
             <button class="footer-item" onclick="openModal('contactModal')">
                 <i class="fa-solid fa-phone"></i>
                 <span>Hubungi</span>
             </button>
 
+            <!-- 5. RSVP -->
             <button class="footer-item" onclick="openModal('rsvpModal')">
                 <i class="fa-regular fa-envelope"></i>
                 <span>RSVP</span>
             </button>
         </div>
 
+        <!-- MODAL POPUP: RSVP & UCAPAN -->
         <div class="modal" id="rsvpModal">
             <div class="modal-content">
                 <div class="rsvp-section-modal">
@@ -441,6 +452,7 @@
 
                     <form id="rsvpForm" onsubmit="submitRSVP(event)">
                         
+                        <!-- Pilihan Kehadiran -->
                         <div class="form-group">
                             <label for="inputStatus">Pengesahan Kehadiran</label>
                             <select id="inputStatus" class="form-input" onchange="togglePaxField(this.value)">
@@ -449,6 +461,7 @@
                             </select>
                         </div>
 
+                        <!-- Input Pax -->
                         <div class="form-group" id="paxGroup">
                             <label for="inputPax">Jumlah Kehadiran (Pax)</label>
                             <select id="inputPax" class="form-input">
@@ -460,6 +473,7 @@
                             </select>
                         </div>
 
+                        <!-- Input Ucapan -->
                         <div class="form-group">
                             <label for="inputUcapan">Ucapan & Doa</label>
                             <textarea id="inputUcapan" class="form-input" rows="3" placeholder="Tuliskan ucapan anda..."></textarea>
@@ -472,6 +486,7 @@
             </div>
         </div>
 
+        <!-- Modal Notifikasi Berjaya Hantar -->
         <div class="modal" id="successModal">
             <div class="modal-content" style="text-align: center; padding: 30px 20px;">
                 <i class="fa-solid fa-circle-check" style="font-size: 50px; color: #a39e6a; margin-bottom: 12px;"></i>
@@ -481,6 +496,7 @@
             </div>
         </div>
 
+        <!-- Modal Popup: Lokasi -->
         <div class="modal" id="locationModal">
             <div class="modal-content">
                 <h4>Pilih Navigasi Lokasi</h4>
@@ -496,6 +512,7 @@
             </div>
         </div>
 
+        <!-- Modal Popup: Hubungi -->
         <div class="modal" id="contactModal">
             <div class="modal-content">
                 <h4>Hubungi </h4>
@@ -513,6 +530,7 @@
 
     </div>
 
+    <!-- Fail Lagu Audio -->
     <audio id="bgMusic" loop preload="auto">
         <source src="lagu.mp3" type="audio/mpeg">
     </audio>
@@ -526,23 +544,130 @@
 
         function openCard() {
             const envelope = document.getElementById('envelope');
-            envelope.classList.add('open');
+            if (envelope) {
+                envelope.classList.add('open');
+                setTimeout(() => {
+                    envelope.style.display = 'none';
+                }, 1200);
+            }
 
-            // KOD BARU: Memunculkan dan memulakan video rama-rama sebaik sahaja BUKA KAD ditekan
+            // Mainkan video rama-rama
             const butterfly = document.getElementById('butterflyVideo');
             if (butterfly) {
                 butterfly.classList.add('active');
                 butterfly.currentTime = 0;
-                butterfly.play();
+                butterfly.play().catch(e => console.log("Video autoplay blocked or file missing:", e));
             }
-            
-            setTimeout(() => {
-                envelope.style.display = 'none';
-            }, 1200);
 
+            // Mainkan audio latar
             playAudioDirect();
         }
 
         function playAudioDirect() {
+            if (!audio) return;
             audio.currentTime = 0;
-            audio.volume =
+            audio.volume = 1.0;
+            
+            let playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    if (musicIcon) musicIcon.className = "fa-solid fa-circle-pause";
+                }).catch(error => {
+                    console.log("Audio play blocked by browser:", error);
+                    if (musicIcon) musicIcon.className = "fa-solid fa-circle-play";
+                });
+            }
+        }
+
+        function toggleAudio() {
+            if (!audio) return;
+            if (audio.paused) {
+                audio.play().then(() => {
+                    if (musicIcon) musicIcon.className = "fa-solid fa-circle-pause";
+                }).catch(e => console.log(e));
+            } else {
+                audio.pause();
+                if (musicIcon) musicIcon.className = "fa-solid fa-circle-play";
+            }
+        }
+
+        /* Kawalan Popup Modal */
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        /* Tunjukkan / Sembunyikan Pax */
+        function togglePaxField(status) {
+            const paxGroup = document.getElementById('paxGroup');
+            if (status === 'Hadir') {
+                paxGroup.style.display = 'block';
+            } else {
+                paxGroup.style.display = 'none';
+            }
+        }
+
+        /* Mengambil Data Kehadiran Live dari Apps Script */
+        function fetchRSVPCount() {
+            if (!API_URL) return;
+
+            fetch(API_URL + "?t=" + new Date().getTime(), {
+                method: "GET",
+                redirect: "follow"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.hadir !== undefined) {
+                    document.getElementById('countHadir').innerText = data.hadir;
+                    document.getElementById('countTakHadir').innerText = data.takHadir;
+                }
+            })
+            .catch(err => console.error("Error fetching RSVP:", err));
+        }
+
+        /* Menghantar Data Form RSVP ke Google Sheets */
+        function submitRSVP(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('btnSubmit');
+            submitBtn.innerText = "Hantar...";
+            submitBtn.disabled = true;
+
+            const payload = {
+                status: document.getElementById('inputStatus').value,
+                pax: document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0,
+                ucapan: document.getElementById('inputUcapan').value
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                document.getElementById('rsvpForm').reset();
+                togglePaxField('Hadir');
+                submitBtn.innerText = "Hantar Pengesahan";
+                submitBtn.disabled = false;
+                
+                closeModal('rsvpModal');
+                openModal('successModal');
+                
+                setTimeout(fetchRSVPCount, 2000); 
+            })
+            .catch(err => {
+                alert("Maaf, berlaku ralat. Sila cuba lagi.");
+                submitBtn.innerText = "Hantar Pengesahan";
+                submitBtn.disabled = false;
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', fetchRSVPCount);
+    </script>
+</body>
+</html>
