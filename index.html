@@ -3,124 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kad Jemputan Kahwin Digital</title>
-    <!-- FontAwesome Icons -->
+    <title>Walimatulurus Syafiq & Zizi</title>
+
+    <!-- FontAwesome untuk Ikon Footer & Modal -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f4f4f9;
+            background-color: #1a1a1a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
         }
 
         /* Container Kad Utama */
         .card-container {
             position: relative;
             width: 100%;
-            max-width: 450px;
-            background: #ffffff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            overflow: hidden;
+            max-width: 420px;
+            height: 90vh;
+            max-height: 750px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border-radius: 12px;
-            padding-bottom: 70px; /* Ruang untuk footer navigation */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Muka Depan / Sampul (Envelope Layer) */
-        .envelope {
+        /* Overlay Animasi Rama-Rama */
+        .butterfly-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #2c3e50, #4ca1af);
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
-            text-align: center;
-            padding: 20px;
+            object-fit: cover;
+            z-index: 4; /* Berada di atas kandungan kad, di bawah footer (5) dan modal (30) */
+            pointer-events: none; /* PENTING: Supaya pengguna tetap boleh scroll dan tekan butang */
+            mix-blend-mode: screen; /* Membuang latar belakang hitam video secara automatik */
+            opacity: 0.85;
         }
 
-        .envelope.open {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .envelope h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-
-        .envelope p {
-            font-size: 1rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .open-btn {
-            background-color: #ffffff;
-            color: #2c3e50;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .open-btn:hover {
-            background-color: #f0f0f0;
-            transform: scale(1.05);
-        }
-
-        /* Kad Kandungan Utama */
-        .main-card {
+        /* Isi Dalam Kad */
+        .card-inside {
             width: 100%;
-            display: flex;
-            flex-direction: column;
+            flex: 1;
+            overflow-y: auto;
+            text-align: center;
+            background-color: #faf8f5;
+            padding-bottom: 70px;
+            scroll-behavior: smooth;
         }
 
-        .main-card img {
+        .card-inside img, .card-inside video {
             width: 100%;
             height: auto;
             display: block;
         }
 
-        /* Bahagian Kaunter Kehadiran Live */
-        .stats-container {
-            background-color: #ffffff;
-            padding: 20px;
+        /* Seksyen Kaunter Kehadiran Live */
+        .rsvp-counter-container {
+            background: #ffffff;
+            margin: 20px 15px 30px 15px;
+            padding: 20px 15px;
+            border-radius: 12px;
+            border: 1px solid #e0d8c3;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
             text-align: center;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
         }
 
-        .stats-container h3 {
-            color: #333;
-            font-size: 1.1rem;
+        .rsvp-counter-container h3 {
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #6b5e4a;
             margin-bottom: 15px;
+            font-weight: 600;
         }
 
-        .stats-grid {
+        .counter-box {
             display: flex;
             justify-content: space-around;
+            align-items: center;
         }
 
         .stat {
@@ -130,179 +103,296 @@
         }
 
         .count-number {
-            font-size: 1.5rem;
+            font-size: 32px;
             font-weight: bold;
-            color: #4ca1af;
+            color: #7a7049;
+            font-family: 'Georgia', serif;
         }
 
         .count-label {
-            font-size: 0.85rem;
+            font-size: 13px;
             color: #666;
             margin-top: 4px;
         }
 
-        /* Footer Navigation Bar */
-        .footer-nav {
-            position: fixed;
-            bottom: 0;
+        /* Input Form Style Untuk Modal */
+        .rsvp-section-modal {
+            text-align: center;
+        }
+
+        .rsvp-section-modal h3 {
+            font-size: 15px;
+            letter-spacing: 2px;
+            color: #4a4237;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .divider-ornament {
+            margin: 0 0 15px 0;
+            color: #a39e6a;
+            font-size: 12px;
+            letter-spacing: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .form-input {
             width: 100%;
-            max-width: 450px;
-            background: #ffffff;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            z-index: 90;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 13px;
+            background-color: #fafafa;
+            outline: none;
+            font-family: inherit;
         }
 
-        .footer-item {
-            background: none;
+        .form-input:focus {
+            border-color: #a39e6a;
+            background-color: #fff;
+        }
+
+        .submit-rsvp-btn {
+            background-color: #a39e6a;
+            color: white;
             border: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #555;
-            font-size: 0.75rem;
+            padding: 12px;
+            border-radius: 25px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 14px;
             cursor: pointer;
-            transition: color 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: background 0.2s;
         }
 
-        .footer-item i {
-            font-size: 1.2rem;
-            margin-bottom: 3px;
+        .submit-rsvp-btn:hover {
+            background-color: #8c8758;
         }
 
-        .footer-item:hover {
-            color: #4ca1af;
-        }
-
-        /* Modal / Pop-up Styles */
-        .modal {
-            display: none;
-            position: fixed;
+        /* Sampul / Pintu Gatefold Overlay */
+        .envelope-overlay {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 200;
+            display: flex;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        .door-left, .door-right {
+            width: 50%;
+            height: 100%;
+            background-image: url('cover.png');
+            background-size: 200% 100%;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .door-left {
+            background-position: left center;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .door-right {
+            background-position: right center;
+            box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Wax Seal */
+        .wax-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            z-index: 20;
+            transition: transform 0.3s ease, opacity 0.8s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .wax-seal span {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .open .door-left { transform: translateX(-100%); }
+        .open .door-right { transform: translateX(100%); }
+        .open .wax-seal {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+        .open { pointer-events: none; }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.06); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Modal Pop-up General */
+        .btn {
+            padding: 12px 18px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+
+        .btn-waze { background-color: #33ccff; color: white; }
+        .btn-gmaps { background-color: #4285F4; color: white; }
+        .btn-phone { background-color: #27ae60; color: white; }
+
+        .modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 30;
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-content {
-            background: #ffffff;
-            width: 100%;
-            max-width: 380px;
-            padding: 25px;
+            background: #fff;
+            padding: 25px 20px;
             border-radius: 12px;
+            width: 88%;
+            max-width: 340px;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
-        .modal-content h3, .modal-content h4 {
+        .modal-content h4 {
             margin-bottom: 15px;
             color: #333;
-        }
-
-        .divider-ornament {
-            color: #4ca1af;
-            margin-bottom: 15px;
         }
 
         .modal-btns {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-bottom: 15px;
         }
-
-        .btn {
-            display: block;
-            padding: 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .btn-waze { background-color: #33ccff; }
-        .btn-gmaps { background-color: #4285f4; }
-        .btn-phone { background-color: #25d366; }
 
         .close-btn {
-            background: #eee;
+            margin-top: 15px;
+            background: none;
             border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
+            color: #888;
             cursor: pointer;
-            color: #333;
-            margin-top: 10px;
+            font-size: 13px;
         }
 
-        /* Form RSVP */
-        .form-group {
-            text-align: left;
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #555;
-            margin-bottom: 5px;
-        }
-
-        .form-input {
+        /* FOOTER NAVIGASI BAWAH */
+        .footer-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            height: 65px;
+            background-color: #a39e6a;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 5;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
         }
 
-        .submit-rsvp-btn {
-            width: 100%;
-            background-color: #4ca1af;
-            color: white;
+        .footer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            flex: 1;
+            cursor: pointer;
             border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+            background: none;
+            outline: none;
         }
 
-        .submit-rsvp-btn:hover {
-            background-color: #3b8d9b;
+        .footer-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .footer-item:active {
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
 
     <div class="card-container">
-
-        <!-- Muka Depan Kad (Sampul) -->
-        <div class="envelope" id="envelope">
-            <h1>WALIMATULURUS</h1>
-            <p>Jemputan Ke Majlis Perkahwinan Kami</p>
-            <button class="open-btn" onclick="openCard()">BUKA KAD</button>
+        <!-- Overlay Pintu & Wax Seal -->
+        <div class="envelope-overlay" id="envelope">
+            <div class="door-left"></div>
+            <div class="door-right"></div>
+            <div class="wax-seal" onclick="openCard()">
+                <span>BUKA KAD</span>
+            </div>
         </div>
 
-        <!-- Kandungan Kad Utam (Gambar Kad & Kaunter Live) -->
-        <div class="main-card">
-            <img src="1.png" alt="Muka Surat 1">
-            <img src="2.png" alt="Muka Surat 2">
+        <!-- Video Animasi Rama-Rama (Overlay) -->
+        <video autoplay loop muted playsinline class="butterfly-overlay">
+            <source src="butterfly.mp4" type="video/mp4">
+        </video>
+
+        <!-- Isi Kad Di Dalam -->
+        <div class="card-inside" id="cardInside">
+            <video autoplay loop muted playsinline>
+                <source src="2.mp4" type="video/mp4">
+            </video>
             <img src="3.png" alt="Muka Surat 3">
             <img src="4.png" alt="Muka Surat 4">
 
             <!-- Bahagian Kaunter Kehadiran Live -->
-            <div class="stats-container">
-                <h3>STATUS KEHADIRAN LIVE</h3>
-                <div class="stats-grid">
+            <div class="rsvp-counter-container">
+                <h3>KEHADIRAN</h3>
+                <div class="counter-box">
                     <div class="stat">
                         <span id="countHadir" class="count-number">0</span>
                         <span class="count-label">Hadir</span>
@@ -311,39 +401,53 @@
                         <span id="countTakHadir" class="count-number">0</span>
                         <span class="count-label">Tidak Hadir</span>
                     </div>
-                    <div class="stat">
-                        <span id="countJumlahPax" class="count-number">0</span>
-                        <span class="count-label">Jumlah Pax</span>
-                    </div>
                 </div>
             </div>
-
-            <img src="5.png" alt="Muka Surat 5">
         </div>
 
-        <!-- Audio Latar Belakang -->
-        <audio id="bgMusic" loop>
-            <source src="lagu.mp3" type="audio/mpeg">
-        </audio>
-
-        <!-- Navigation Footer Bar -->
+        <!-- Footer Navigasi Bawah -->
         <div class="footer-nav">
-            <button class="footer-item" onclick="openModal('locationModal')">
-                <i class="fa-solid fa-location-dot"></i>
-                <span>Lokasi</span>
-            </button>
             <button class="footer-item" onclick="openModal('rsvpModal')">
                 <i class="fa-solid fa-envelope-open-text"></i>
                 <span>RSVP</span>
             </button>
+            <button class="footer-item" onclick="openModal('locationModal')">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>LOKASI</span>
+            </button>
             <button class="footer-item" onclick="openModal('contactModal')">
                 <i class="fa-solid fa-phone"></i>
-                <span>Hubungi</span>
+                <span>HUBUNGI</span>
             </button>
-            <button class="footer-item" id="musicBtn" onclick="toggleMusic()">
-                <i class="fa-solid fa-compact-disc" id="musicIcon"></i>
-                <span>Lagu</span>
-            </button>
+        </div>
+
+        <!-- Modal RSVP -->
+        <div class="modal" id="rsvpModal">
+            <div class="modal-content">
+                <div class="rsvp-section-modal">
+                    <h3>PENGESAHAN KEHADIRAN</h3>
+                    <div class="divider-ornament">❖ ❖ ❖</div>
+                    <form id="rsvpForm" onsubmit="submitRSVP(event)">
+                        <div class="form-group">
+                            <label for="nama">Nama</label>
+                            <input type="text" id="nama" class="form-input" placeholder="Masukkan nama anda" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status Kehadiran</label>
+                            <select id="status" class="form-input" required>
+                                <option value="Hadir">Hadir</option>
+                                <option value="Tidak Hadir">Tidak Hadir</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pax">Jumlah Tetamu (Pax)</label>
+                            <input type="number" id="pax" class="form-input" min="1" max="10" value="1" required>
+                        </div>
+                        <button type="submit" class="submit-rsvp-btn">HANTAR RSVP</button>
+                    </form>
+                </div>
+                <button class="close-btn" onclick="closeModal('rsvpModal')">Tutup</button>
+            </div>
         </div>
 
         <!-- Modal Lokasi -->
@@ -362,92 +466,30 @@
             </div>
         </div>
 
-        <!-- Modal RSVP -->
-        <div class="modal" id="rsvpModal">
-            <div class="modal-content">
-                <div class="rsvp-section-modal">
-                    <h3>DISAHKAN KEHADIRAN</h3>
-                    <div class="divider-ornament">❖ ❖ ❖</div>
-                    <form id="rsvpForm" onsubmit="handleRSVP(event)">
-                        <div class="form-group">
-                            <label for="nama">Nama Tetamu</label>
-                            <input type="text" id="nama" class="form-input" placeholder="Nama Penuh Anda" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="kehadiran">Status Kehadiran</label>
-                            <select id="kehadiran" class="form-input" onchange="togglePaxInput()" required>
-                                <option value="hadir">Hadir</option>
-                                <option value="takhadir">Tidak Hadir</option>
-                            </select>
-                        </div>
-                        <div class="form-group" id="paxGroup">
-                            <label for="pax">Jumlah Pax (Termasuk Anda)</label>
-                            <input type="number" id="pax" class="form-input" min="1" max="10" value="1">
-                        </div>
-                        <button type="submit" class="submit-rsvp-btn">Hantar RSVP</button>
-                    </form>
-                </div>
-                <button class="close-btn" onclick="closeModal('rsvpModal')">Tutup</button>
-            </div>
-        </div>
-
         <!-- Modal Hubungi -->
         <div class="modal" id="contactModal">
             <div class="modal-content">
                 <h4>HUBUNGI KAMI</h4>
                 <div class="modal-btns">
                     <a href="https://wa.me/60123456789" target="_blank" class="btn btn-phone">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp Pengantin
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp Syafiq
                     </a>
-                    <a href="tel:+60123456789" class="btn btn-phone">
-                        <i class="fa-solid fa-phone"></i> Panggilan Telefon
+                    <a href="https://wa.me/60198765432" target="_blank" class="btn btn-phone">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp Zizi
                     </a>
                 </div>
                 <button class="close-btn" onclick="closeModal('contactModal')">Tutup</button>
             </div>
         </div>
-
     </div>
 
-    <!-- JavaScript Logik -->
     <script>
-        // Data Kehadiran
-        let rsvpData = {
-            hadir: 0,
-            takHadir: 0,
-            jumlahPax: 0
-        };
-
-        // Buka Kad & Mainkan Lagu
+        // Buka Pintu Sampul Kad
         function openCard() {
-            const envelope = document.getElementById('envelope');
-            envelope.classList.add('open');
-
-            const music = document.getElementById('bgMusic');
-            const icon = document.getElementById('musicIcon');
-            
-            music.play().then(() => {
-                icon.className = "fa-solid fa-compact-disc fa-spin";
-            }).catch(error => {
-                console.log("Autoplay dihalang oleh pelayar web:", error);
-            });
+            document.getElementById('envelope').classList.add('open');
         }
 
-        // Kawalan Lagu Play/Pause
-        function toggleMusic() {
-            const music = document.getElementById('bgMusic');
-            const icon = document.getElementById('musicIcon');
-
-            if (music.paused) {
-                music.play();
-                icon.className = "fa-solid fa-compact-disc fa-spin";
-            } else {
-                music.pause();
-                icon.className = "fa-solid fa-compact-disc";
-            }
-        }
-
-        // Kawalan Modal Pop-up
+        // Buka & Tutup Modal Pop-up
         function openModal(id) {
             document.getElementById(id).style.display = 'flex';
         }
@@ -456,43 +498,26 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        // Paparkan / Sembunyikan Input Pax mengikut pilihan
-        function togglePaxInput() {
-            const status = document.getElementById('kehadiran').value;
-            const paxGroup = document.getElementById('paxGroup');
-            if (status === 'takhadir') {
-                paxGroup.style.display = 'none';
-            } else {
-                paxGroup.style.display = 'block';
-            }
-        }
+        // Pengurusan Borang RSVP (Demo simulasi tambah bilangan)
+        let totalHadir = 0;
+        let totalTakHadir = 0;
 
-        // Proses Borang RSVP & Kemaskini Kaunter
-        function handleRSVP(event) {
-            event.preventDefault();
-            const nama = document.getElementById('nama').value;
-            const status = document.getElementById('kehadiran').value;
+        function submitRSVP(e) {
+            e.preventDefault();
+            const status = document.getElementById('status').value;
             const pax = parseInt(document.getElementById('pax').value) || 1;
 
-            if (status === 'hadir') {
-                rsvpData.hadir += 1;
-                rsvpData.jumlahPax += pax;
+            if (status === 'Hadir') {
+                totalHadir += pax;
+                document.getElementById('countHadir').innerText = totalHadir;
             } else {
-                rsvpData.takHadir += 1;
+                totalTakHadir += 1;
+                document.getElementById('countTakHadir').innerText = totalTakHadir;
             }
 
-            updateCounters();
-            alert(`Terima kasih ${nama} atas pengesahan kehadiran anda!`);
+            alert('Terima kasih atas maklum balas RSVP anda!');
             closeModal('rsvpModal');
             document.getElementById('rsvpForm').reset();
-            togglePaxInput();
-        }
-
-        // Kemaskini Paparan Kaunter Live
-        function updateCounters() {
-            document.getElementById('countHadir').innerText = rsvpData.hadir;
-            document.getElementById('countTakHadir').innerText = rsvpData.takHadir;
-            document.getElementById('countJumlahPax').innerText = rsvpData.jumlahPax;
         }
     </script>
 </body>
