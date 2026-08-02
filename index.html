@@ -40,6 +40,20 @@
             flex-direction: column;
         }
 
+        /* Overlay Animasi Rama-Rama */
+        .butterfly-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 4; /* Berada di atas kandungan kad, di bawah footer (5) dan modal (30) */
+            pointer-events: none; /* PENTING: Supaya pengguna tetap boleh scroll dan tekan butang */
+            mix-blend-mode: screen; /* Membuang latar belakang hitam video secara automatik */
+            opacity: 0.85;
+        }
+
         /* Isi Dalam Kad */
         .card-inside {
             width: 100%;
@@ -361,6 +375,11 @@
                 <span>BUKA KAD</span>
             </div>
         </div>
+
+        <!-- Video Animasi Rama-Rama (Overlay) -->
+        <video autoplay loop muted playsinline class="butterfly-overlay">
+            <source src="butterfly.mp4" type="video/mp4">
+        </video>
 
         <!-- Isi Kad Di Dalam -->
         <div class="card-inside" id="cardInside">
