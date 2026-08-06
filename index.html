@@ -41,7 +41,7 @@
 
         /* Isi Dalam Kad */
         .card-inside {
-            position: relative; /* KOD BARU: Untuk jadikan panduan kedudukan video rama-rama */
+            position: relative;
             width: 100%;
             flex: 1;
             overflow-y: auto;
@@ -51,7 +51,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Overlay Animasi Rama-Rama (KINI DALAM CARD-INSIDE) */
+        /* Overlay Animasi Rama-Rama */
         .butterfly-overlay {
             position: absolute;
             top: 0;
@@ -60,8 +60,8 @@
             height: 100%;
             object-fit: cover;
             z-index: 4;
-            pointer-events: none; /* Supaya tetamu tetap boleh scroll & tekan butang */
-            mix-blend-mode: screen; /* Hilangkan latar belakang hitam video */
+            pointer-events: none;
+            mix-blend-mode: screen;
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -441,6 +441,12 @@
 
                     <form id="rsvpForm" onsubmit="submitRSVP(event)">
                         
+                        <!-- TAMBAHAN RUANGAN NAMA -->
+                        <div class="form-group">
+                            <label for="inputNama">Nama Penuh</label>
+                            <input type="text" id="inputNama" class="form-input" placeholder="Masukkan nama anda..." required>
+                        </div>
+
                         <div class="form-group">
                             <label for="inputStatus">Pengesahan Kehadiran</label>
                             <select id="inputStatus" class="form-input" onchange="togglePaxField(this.value)">
@@ -498,7 +504,7 @@
 
         <div class="modal" id="contactModal">
             <div class="modal-content">
-                <h4>Hubungi </h4>
+                <h4>Hubungi</h4>
                 <div class="modal-btns">
                     <a href="tel:0123267454" class="btn btn-phone">
                         <i class="fa-solid fa-phone"></i> Intan (012-326 7454)
@@ -506,7 +512,8 @@
                     <a href="tel:0123347814" class="btn btn-phone">
                         <i class="fa-solid fa-phone"></i> Sabree (012-334 7814)
                     </a>
-                      <a href="tel:0123347814" class="btn btn-phone">
+                    <!-- TAMBAHAN HUBUNGI SYAQIRAH -->
+                    <a href="tel:0137900058" class="btn btn-phone">
                         <i class="fa-solid fa-phone"></i> Syaqirah (013-790 0058)
                     </a>
                 </div>
@@ -524,7 +531,6 @@
         const audio = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
 
-        /* URL Web App Google Apps Script Anda */
         const API_URL = "https://script.google.com/macros/s/AKfycbzEeXtWO-haYn4rxP9XfxTKzeDF6IVCXdqYuWXtszu8cXPDFw0a3Oqw0aR1mHte63FlTw/exec";
 
         function openCard() {
@@ -536,14 +542,12 @@
                 }, 1200);
             }
 
-            // KOD BARU: Mainkan video rama-rama sekali sahaja & sembunyikan semula selepas tamat
             const butterfly = document.getElementById('butterflyVideo');
             if (butterfly) {
                 butterfly.classList.add('active');
                 butterfly.currentTime = 0;
                 butterfly.play().catch(e => console.log("Video playback error:", e));
 
-                // Sembunyikan paparan video rama-rama sebaik sahaja ia selesai dimainkan (sekali main)
                 butterfly.onended = function() {
                     butterfly.classList.remove('active');
                 };
@@ -581,7 +585,6 @@
             }
         }
 
-        /* Kawalan Popup Modal */
         function openModal(id) {
             document.getElementById(id).style.display = 'flex';
         }
@@ -590,7 +593,6 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        /* Tunjukkan / Sembunyikan Pax */
         function togglePaxField(status) {
             const paxGroup = document.getElementById('paxGroup');
             if (status === 'Hadir') {
@@ -600,7 +602,6 @@
             }
         }
 
-        /* Mengambil Data Kehadiran Live dari Apps Script */
         function fetchRSVPCount() {
             if (!API_URL) return;
 
@@ -618,7 +619,6 @@
             .catch(err => console.error("Error fetching RSVP:", err));
         }
 
-        /* Menghantar Data Form RSVP ke Google Sheets */
         function submitRSVP(e) {
             e.preventDefault();
 
@@ -627,6 +627,7 @@
             submitBtn.disabled = true;
 
             const payload = {
+                nama: document.getElementById('inputNama').value,
                 status: document.getElementById('inputStatus').value,
                 pax: document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0,
                 ucapan: document.getElementById('inputUcapan').value
