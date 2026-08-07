@@ -55,13 +55,16 @@
         .hero-section {
             position: relative;
             width: 100%;
+            aspect-ratio: 1 / 1.414; /* Menetapkan nisbah saiz kad supaya bekas tidak kosong */
+            overflow: hidden;
             line-height: 0;
         }
 
         .hero-section img, 
         .hero-section video {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
 
