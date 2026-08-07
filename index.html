@@ -619,26 +619,24 @@
             .catch(err => console.error("Error fetching RSVP:", err));
         }
 
-       function submitRSVP(e) {
+function submitRSVP(e) {
             e.preventDefault();
 
             const submitBtn = document.getElementById('btnSubmit');
             submitBtn.innerText = "Hantar...";
             submitBtn.disabled = true;
 
-            const payload = {
-                status: document.getElementById('inputStatus').value,
-                pax: document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0,
-                nama: document.getElementById('inputNama').value,
-                ucapan: document.getElementById('inputUcapan').value
-            };
+            const formData = new FormData();
+            formData.append("status", document.getElementById('inputStatus').value);
+            formData.append("pax", document.getElementById('inputStatus').value === 'Hadir' ? document.getElementById('inputPax').value : 0);
+            formData.append("nama", document.getElementById('inputNama').value);
+            formData.append("ucapan", document.getElementById('inputUcapan').value);
 
             fetch(API_URL, {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload)
+                body: formData
             })
+            .then(response => response.text())
             .then(() => {
                 document.getElementById('rsvpForm').reset();
                 togglePaxField('Hadir');
@@ -655,6 +653,7 @@
                 submitBtn.innerText = "Hantar Pengesahan";
                 submitBtn.disabled = false;
             });
+        }
         }
         window.addEventListener('DOMContentLoaded', fetchRSVPCount);
     </script>
