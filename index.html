@@ -90,8 +90,13 @@
 
         /* 3. Lapisan Bingkai & Teks */
         .frame-layer {
-            position: relative;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 3;
+            pointer-events: none;
             image-rendering: -webkit-optimize-contrast;
         }
 
